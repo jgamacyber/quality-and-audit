@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SGSI — ISO 27001 e NIST CSF 2.0 · Quality &amp; Audit</title>
+<style>
+:root{
+  --ink:#0B1B2B; --muted:#5B6878; --soft:#8794A3; --bg:#F2F5F7; --card:#FFFFFF; --line:#E1E7ED; --line2:#CBD5DF;
+  --brand:#0E7490; --brand-d:#155E75; --brand-soft:#E3F3F6; --night:#0A2230; --glow:#5EEAD4;
+  --c:#15803D; --c-b:#DCFCE7; --p:#B45309; --p-b:#FEF3C7; --nc:#B91C1C; --nc-b:#FEE2E2; --na:#475569; --na-b:#E2E8F0;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 "Inter","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--brand)}
+h1,h2,h3,h4{letter-spacing:-.015em;line-height:1.15}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* topo */
+.top{position:sticky;top:0;z-index:30;background:var(--night);color:#fff;border-bottom:1px solid rgba(255,255,255,.06)}
+.top-in{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:10px 24px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;background:none;border:0;padding:0}
+.brand b{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.brand i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--glow);border-left:1px solid rgba(255,255,255,.18);padding-left:10px}
+.nav{display:flex;gap:2px;flex-wrap:wrap}
+.nav button{background:none;border:0;color:#A9BDC9;font-weight:650;font-size:14px;padding:9px 12px;border-radius:9px}
+.nav button:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav button.on{color:#fff;background:rgba(94,234,212,.14)}
+.prog{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#A9BDC9}
+.prog .bar{width:110px;height:6px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.prog .bar span{display:block;height:100%;background:var(--glow)}
+.prog b{color:#fff}
+
+.wrap{max-width:1360px;margin:0 auto;padding:28px 24px 90px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:11px 16px;font-weight:700;font-size:14px;line-height:1;white-space:nowrap;text-decoration:none}
+.btn-pri{background:#14B8A6;color:#032A2C}
+.btn-pri:hover{background:#2DD4BF}
+.btn-line{background:transparent;border-color:rgba(255,255,255,.28);color:#fff}
+.btn-line:hover{background:rgba(255,255,255,.07)}
+.btn-sec{background:#fff;border-color:var(--line2);color:var(--ink)}
+.btn-sec:hover{border-color:var(--brand);color:var(--brand)}
+.btn-dark{background:var(--brand);color:#fff}
+.btn-dark:hover{background:var(--brand-d)}
+.btn-red{background:#fff;border-color:#F3B4B4;color:var(--nc)}
+.btn-sm{padding:8px 12px;font-size:13px}
+
+/* início */
+.hero{background:var(--night);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(94,234,212,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(94,234,212,.07) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(110deg,transparent 30%,#000 75%);-webkit-mask-image:linear-gradient(110deg,transparent 30%,#000 75%)}
+.hero-in{position:relative;max-width:1360px;margin:0 auto;padding:64px 24px 70px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:end}
+.kick{font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--glow)}
+.hero h1{font-size:clamp(34px,4.8vw,58px);margin:16px 0 0;font-weight:800;letter-spacing:-.035em;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--glow)}
+.hero p.lead{max-width:620px;color:#B9CCD6;font-size:17px;line-height:1.7;margin:20px 0 0}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px}
+.hero-card .row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.hero-card .row:last-child{border-bottom:0}
+.hero-card .row span{color:#B9CCD6;font-size:14px}
+.hero-card .row b{font-size:24px;font-weight:800}
+@media (max-width:900px){.hero-in{grid-template-columns:1fr;padding:44px 16px 48px}}
+
+.sec{margin:44px 0 0}
+.sec-h{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+.sec-h .n{font-weight:800;color:var(--brand);font-size:13px}
+.sec-h .ln{width:30px;height:1px;background:var(--line2)}
+.sec-h h2{margin:0;font-size:21px}
+.sec-h p{margin:0 0 0 auto;color:var(--muted);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;padding:22px}
+.f{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--ink)}
+.f.wide{grid-column:1/-1}
+.f small{font-weight:500;color:var(--muted);font-size:12.5px;line-height:1.45}
+input[type=text],input[type=date],textarea,select{width:100%;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;background:#fff;font-size:14.5px;font-weight:500}
+textarea{min-height:74px;resize:vertical;line-height:1.5}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(14,116,144,.14)}
+.norms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.norm{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;position:relative}
+.norm.on{border-color:var(--nc-color,var(--brand));box-shadow:0 14px 30px -22px rgba(10,34,48,.5)}
+.norm .chk{position:absolute;top:18px;right:18px;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line2);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}
+.norm.on .chk{background:var(--nc-color,var(--brand));border-color:var(--nc-color,var(--brand))}
+.norm .code{font-weight:800;font-size:13px}
+.norm h3{margin:0;font-size:19px;padding-right:30px}
+.norm p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+.norm .meta{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;gap:16px;font-size:13px;color:var(--muted)}
+.norm .meta b{color:var(--ink)}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.how .card{padding:20px}
+.how .num{width:30px;height:30px;border-radius:9px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:14px}
+.how h3{margin:12px 0 6px;font-size:16px}
+.how p{margin:0;color:var(--muted);font-size:14px}
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.about{grid-template-columns:1fr}}
+.about .card{padding:22px}
+.ref{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ref:last-child{border-bottom:0}
+.ref .t{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ref b{font-size:15px}
+.pill{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--brand-soft);color:var(--brand)}
+.ref span.d{color:var(--muted);font-size:13.5px}
+.notes p{margin:0 0 12px;color:var(--muted);font-size:14px;line-height:1.65}
+.data-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:18px 22px}
+.data-row .sp{flex:1}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* auditoria */
+.aud{display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;align-items:start}
+.rail{position:sticky;top:76px;max-height:calc(100vh - 96px);overflow:auto;padding:8px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.rail .g{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin:12px 8px 6px;display:flex;align-items:center;gap:8px}
+.rail .g i{width:8px;height:8px;border-radius:3px;display:inline-block}
+.rail button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;font-size:13.5px}
+.rail button:hover{background:#F4F7F9}
+.rail button.on{background:var(--brand-soft)}
+.rail .k{min-width:42px;font-weight:800;font-size:12px;color:var(--muted)}
+.rail button.on .k{color:var(--brand)}
+.rail .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rail .c{font-size:11.5px;color:var(--soft);font-variant-numeric:tabular-nums}
+.rail .c.ok{color:var(--c);font-weight:800}
+.railsel{display:none}
+@media (max-width:980px){.aud{grid-template-columns:1fr}.rail{display:none}.railsel{display:block;margin-bottom:14px}}
+.stephead{padding:22px 24px;margin-bottom:16px}
+.stephead .top2{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+.stephead h2{margin:8px 0 6px;font-size:26px}
+.stephead p{margin:0;color:var(--muted)}
+.pbar{height:6px;border-radius:99px;background:#EAF0F3;overflow:hidden;margin-top:16px}
+.pbar span{display:block;height:100%;background:var(--brand)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.chip{border:1px solid var(--line2);background:#fff;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:650}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.items{display:flex;flex-direction:column;gap:14px}
+.item{background:#fff;border:1px solid var(--line);border-left:4px solid var(--line2);border-radius:var(--r);padding:20px 22px}
+.item.C{border-left-color:var(--c)}.item.P{border-left-color:var(--p)}.item.NC{border-left-color:var(--nc)}.item.NA{border-left-color:var(--na)}
+.it-top{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.rf{font-weight:800;font-size:12px;padding:4px 8px;border-radius:7px;white-space:nowrap}
+.it-top h3{margin:0;font-size:17px;flex:1;min-width:200px}
+.q{margin:8px 0 0;color:#3A4757;font-size:15px;line-height:1.6}
+.xref{display:inline-flex;gap:7px;align-items:flex-start;margin-top:10px;font-size:12.5px;font-weight:650;color:#155E75;background:#ECFEFF;border:1px solid #CFFAFE;padding:6px 10px;border-radius:9px;line-height:1.45}
+.ctl{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin-top:16px}
+.lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line2);background:#fff;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:750}
+.seg button:hover{border-color:var(--ink)}
+.seg button.on-C{background:var(--c);border-color:var(--c);color:#fff}
+.seg button.on-P{background:var(--p);border-color:var(--p);color:#fff}
+.seg button.on-NC{background:var(--nc);border-color:var(--nc);color:#fff}
+.seg button.on-NA{background:var(--na);border-color:var(--na);color:#fff}
+.seg button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.mat button{width:36px;padding:8px 0}
+.matd{font-size:12.5px;color:var(--muted);margin-top:6px;min-height:18px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:14px}
+.fields textarea{min-height:64px}
+.linkbtn{background:none;border:0;padding:0;color:var(--brand);font-weight:700;font-size:13px}
+.guide{margin-top:14px;background:#F7FAFB;border:1px dashed var(--line2);border-radius:12px;padding:14px 16px;display:grid;gap:12px}
+.guide h4{margin:0 0 3px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.guide p{margin:0;font-size:14px;color:#334155}
+.sevnote{font-size:12.5px;color:var(--muted);margin-top:6px;max-width:520px}
+.stepnav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+
+/* plano */
+.kb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+@media (max-width:980px){.kb{grid-template-columns:1fr}}
+.col{background:#E7EDF1;border-radius:16px;padding:12px;min-height:240px;transition:outline-color .15s}
+.col.over{outline:2px dashed var(--brand);outline-offset:-2px}
+.col-h{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 12px;font-weight:800;font-size:14px}
+.col-h span{font-size:12px;background:#fff;border-radius:99px;padding:2px 9px;color:var(--muted)}
+.kc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:grab}
+.kc:active{cursor:grabbing}
+.kc .h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px}
+.kc h4{margin:8px 0 6px;font-size:14.5px;line-height:1.35}
+.kc .m{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.kc .late{color:var(--nc);font-weight:800}
+.kc .mv{display:flex;gap:6px;margin-top:10px}
+.kc .mv button{border:1px solid var(--line2);background:#fff;border-radius:8px;font-size:12px;padding:4px 8px;font-weight:700}
+.tag{font-weight:800;font-size:11px;padding:3px 8px;border-radius:99px}
+.t-maj{background:var(--nc);color:#fff}.t-men{background:var(--nc-b);color:var(--nc)}.t-par{background:var(--p-b);color:var(--p)}
+.empty{padding:28px;text-align:center;color:var(--muted);font-size:14px}
+
+/* painel */
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.dgrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.dgrid .card{padding:22px}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}.s8{grid-column:span 8}.s6{grid-column:span 6}.s12{grid-column:span 12}
+@media (max-width:1000px){.s4,.s5,.s7,.s8,.s6{grid-column:span 12}}
+.card h3.ct{margin:0 0 4px;font-size:16px}
+.card .cs{margin:0 0 16px;color:var(--muted);font-size:13px}
+.ringw{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.verd b{display:inline-block;font-size:13px;font-weight:800;padding:4px 10px;border-radius:99px;color:#fff}
+.verd p{margin:10px 0 0;color:var(--muted);font-size:14px;max-width:340px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.kpi span{font-size:12.5px;color:var(--muted);font-weight:600}
+.hb{display:grid;grid-template-columns:minmax(0,1fr) 46px;gap:6px 12px;align-items:center;margin-bottom:12px}
+.hb .l{font-size:13.5px;font-weight:650;display:flex;justify-content:space-between;gap:8px}
+.hb .l small{color:var(--muted);font-weight:500}
+.hb .tr{grid-column:1/2;height:8px;background:#EDF2F5;border-radius:99px;overflow:hidden}
+.hb .tr span{display:block;height:100%;border-radius:99px}
+.hb .v{grid-column:2;grid-row:1/3;text-align:right;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.hc{border:0;border-radius:11px;padding:10px 12px;text-align:left;min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+.hc small{font-size:11px;font-weight:800;opacity:.85}
+.hc span{font-size:12.5px;font-weight:650;line-height:1.3}
+.hc b{font-size:18px}
+.stack{display:flex;height:14px;border-radius:99px;overflow:hidden;background:#EDF2F5}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.flist{display:flex;flex-direction:column}
+.fl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.fl:last-child{border-bottom:0}
+.fl .tt{min-width:0}
+.fl .tt b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl .tt small{color:var(--muted)}
+
+/* relatórios */
+.rtool{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
+.rtool .sp{flex:1}
+.rtool p{margin:0;color:var(--muted);font-size:13.5px}
+.pscroll{overflow-x:auto;padding-bottom:12px}
+.pages{display:flex;flex-direction:column;align-items:center;gap:26px;min-width:min-content}
+.page{width:210mm;height:297mm;background:#fff;box-shadow:0 18px 40px -24px rgba(10,34,48,.45);position:relative;overflow:hidden;padding:18mm 17mm 20mm;color:#0B1B2B;font-size:9.6pt;line-height:1.5}
+.page .ph{display:flex;justify-content:space-between;align-items:center;padding-bottom:4mm;border-bottom:1px solid #E1E7ED;font-size:8pt;color:#5B6878;margin-bottom:8mm}
+.page .ph .bm{display:flex;align-items:center;gap:7px;font-weight:800;color:#0B1B2B;font-size:9pt}
+.page .pf{position:absolute;left:17mm;right:17mm;bottom:9mm;display:flex;justify-content:space-between;font-size:7.6pt;color:#8794A3;border-top:1px solid #E1E7ED;padding-top:3mm}
+.page h2{font-size:17pt;margin:2mm 0 6mm;letter-spacing:-.02em}
+.page .kk{font-size:7.6pt;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#0E7490}
+.page table{width:100%;border-collapse:collapse;font-size:8.6pt}
+.page th{text-align:left;font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#5B6878;border-bottom:1.4px solid #0B1B2B;padding:2mm 1.5mm}
+.page td{border-bottom:1px solid #EDF1F4;padding:1.9mm 1.5mm;vertical-align:top}
+.page td.n,.page th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.page .cut{max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cover{padding:0}
+.cover .band{background:#0A2230;color:#fff;padding:22mm 18mm 18mm;height:150mm;position:relative;overflow:hidden}
+.cover .band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(94,234,212,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(94,234,212,.09) 1px,transparent 1px);background-size:9mm 9mm}
+.cover .band>*{position:relative}
+.cover .bm{display:flex;align-items:center;gap:8px;font-weight:800;font-size:11pt}
+.cover h1{font-size:30pt;margin:34mm 0 4mm;letter-spacing:-.03em;line-height:1.05}
+.cover .sub{color:#B9CCD6;font-size:12pt}
+.cover .meta{padding:14mm 18mm;display:grid;grid-template-columns:1fr 1fr;gap:7mm 10mm}
+.cover .meta div small{display:block;font-size:7.4pt;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#8794A3;margin-bottom:1.5mm}
+.cover .meta div b{font-size:11pt}
+.cover .conf{position:absolute;left:18mm;right:18mm;bottom:12mm;font-size:8pt;color:#8794A3;border-top:1px solid #E1E7ED;padding-top:3mm}
+.rbig{display:grid;grid-template-columns:auto 1fr;gap:8mm;align-items:center;margin-bottom:8mm}
+.rk{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-bottom:8mm}
+.rk div{border:1px solid #E1E7ED;border-radius:3mm;padding:3mm}
+.rk b{display:block;font-size:15pt}
+.rk span{font-size:7.4pt;color:#5B6878}
+.rbar{height:2.4mm;border-radius:99px;background:#EDF2F5;overflow:hidden}
+.rbar span{display:block;height:100%}
+.fcard{border:1px solid #E1E7ED;border-radius:3mm;padding:4mm 5mm;margin-bottom:4mm;break-inside:avoid}
+.fcard .h{display:flex;gap:2.5mm;align-items:center;flex-wrap:wrap;margin-bottom:2mm}
+.fcard .h b{font-size:10pt}
+.fcard .g{display:grid;grid-template-columns:1fr 1fr;gap:2mm 6mm;margin-top:2mm}
+.fcard small{display:block;font-size:6.8pt;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8794A3}
+.fcard p{margin:.5mm 0 0}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:14mm;margin-top:18mm}
+.sig div{border-top:1px solid #0B1B2B;padding-top:2.5mm;font-size:8.6pt}
+.rec{display:flex;gap:3mm;margin-bottom:3mm}
+.rec span{flex:0 0 6mm;height:6mm;border-radius:2mm;background:#E3F3F6;color:#0E7490;font-weight:800;display:grid;place-items:center;font-size:8pt}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;z-index:50;box-shadow:0 12px 30px -12px rgba(0,0,0,.4)}
+.hide{display:none!important}
+
+@media (max-width:640px){
+  .top-in{padding:10px 16px;gap:10px}
+  .prog{margin-left:0;width:100%}
+  .wrap{padding:20px 16px 70px}
+  .stephead h2{font-size:21px}
+}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff}
+  .top,.noprint,.toast{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .pscroll{overflow:visible;padding:0}
+  .pages{display:block;gap:0}
+  .page{box-shadow:none;margin:0;break-after:page;page-break-after:always}
+  .page:last-child{break-after:auto;page-break-after:auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<input type="file" id="imp" accept="application/json,.json" class="hide">
+<script id="deck-data" type="application/json">{"id": "sgsi-csf", "title": "SGSI — ISO 27001 e NIST CSF 2.0", "tag": "SGSI + CSF", "h1": "Auditoria de ISO 27001 e NIST CSF 2.0,", "lead": "Uma só coleta de evidências para avaliar o SGSI e montar o perfil atual do CSF. Cada item mostra o equivalente no outro referencial.", "norms": [{"id": "27001", "code": "ISO/IEC 27001:2022", "short": "ISO 27001", "name": "Sistema de gestão de segurança da informação", "desc": "Requisitos do SGSI nas cláusulas 4 a 10 e amostra dos 93 controles do Anexo A. Norma certificável.", "color": "#0E7490", "light": "#A5E4EE", "ink": "#0E7490", "steps": [{"k": "4", "t": "Contexto da organização", "d": "Cláusula 4 · questões internas e externas, partes interessadas, escopo e processos do SGSI.", "i": [["4.1", "Questões internas e externas", "A organização sabe quais fatores internos e externos afetam a segurança da informação e o alcance dos resultados do SGSI?", "Análise registrada (por exemplo, SWOT ou PESTEL) cobrindo negócio, tecnologia, regulação e ameaças; inclui a avaliação sobre mudanças climáticas trazida pela emenda de 2024; revisada quando o cenário muda.", "Documento de contexto, ata da última revisão, registro de mudanças relevantes.", "CSF GV.OC-01"], ["4.2", "Partes interessadas e seus requisitos", "Estão identificadas as partes interessadas relevantes, o que cada uma exige e quais desses requisitos o SGSI vai atender?", "Lista de partes (clientes, reguladores, acionistas, fornecedores, colaboradores) com requisitos e indicação de quais são tratados pelo SGSI.", "Matriz de partes interessadas, registro de requisitos legais e contratuais.", "CSF GV.OC-02 · GV.OC-03"], ["4.3", "Escopo do SGSI", "O escopo está documentado com limites claros, interfaces e dependências com atividades de terceiros?", "Escopo descreve processos, locais, unidades e tecnologias; explica o que fica de fora e por quê; considera serviços de nuvem e terceirizados.", "Declaração de escopo aprovada, diagrama de fronteiras.", "CSF GV.OC-04"], ["4.4", "Processos do SGSI", "O SGSI foi estabelecido como um conjunto de processos que interagem, e não apenas como documentos?", "Processos do SGSI identificados com entradas, saídas, responsáveis e indicadores; interações mapeadas.", "Mapa de processos, descrição dos processos, indicadores.", "CSF GV.OV-03"]]}, {"k": "5", "t": "Liderança", "d": "Cláusula 5 · comprometimento da alta direção, política e responsabilidades.", "i": [["5.1", "Comprometimento da alta direção", "A alta direção mostra na prática que apoia o SGSI, com recursos, decisões e integração aos processos de negócio?", "Participação da direção em análises críticas; orçamento aprovado; segurança considerada em decisões de negócio; comunicação da importância do SGSI.", "Atas da diretoria, orçamento, comunicados da liderança.", "CSF GV.RR-01"], ["5.2", "Política de segurança da informação", "Existe política aprovada pela direção, coerente com o propósito da organização, com compromisso de atender requisitos e de melhoria contínua?", "Política com objetivos ou estrutura para defini-los, aprovada, comunicada internamente e disponível às partes interessadas quando apropriado.", "Política assinada, evidência de divulgação, controle de versão.", "CSF GV.PO-01"], ["5.3", "Papéis e autoridades", "Responsabilidades e autoridades de segurança estão atribuídas e comunicadas, incluindo quem reporta o desempenho do SGSI à direção?", "Gestor do SGSI nomeado; donos de riscos e de ativos definidos; responsabilidades em descrições de cargo ou RACI.", "Ato de nomeação, RACI, organograma de segurança.", "CSF GV.RR-02"]]}, {"k": "6", "t": "Planejamento", "d": "Cláusula 6 · riscos e oportunidades, avaliação e tratamento de riscos, objetivos e mudanças.", "i": [["6.1.1", "Riscos e oportunidades do SGSI", "A organização planejou ações para os riscos e oportunidades que podem afetar os resultados do próprio SGSI?", "Riscos do sistema de gestão (não só os de segurança) e oportunidades de melhoria identificados com ações planejadas.", "Registro de riscos e oportunidades do SGSI, plano de ação.", "CSF GV.RM-01"], ["6.1.2", "Processo de avaliação de riscos", "Há um processo definido de avaliação de riscos que produz resultados consistentes, válidos e comparáveis?", "Critérios de aceitação e de avaliação definidos; riscos ligados à perda de confidencialidade, integridade e disponibilidade; donos dos riscos identificados; análise e priorização documentadas.", "Metodologia de riscos, critérios aprovados, relatório de avaliação.", "CSF GV.RM-06 · ID.RA-05 · 27005 7"], ["6.1.3", "Tratamento de riscos e Declaração de Aplicabilidade", "Os riscos têm opções de tratamento escolhidas, os controles foram comparados com o Anexo A e existe Declaração de Aplicabilidade?", "SoA com todos os controles do Anexo A, justificativa de inclusão e exclusão e status; plano de tratamento aprovado pelos donos dos riscos, que também aceitam o risco residual.", "SoA versionada, plano de tratamento, aceites de risco residual.", "CSF ID.RA-06 · 27005 8"], ["6.2", "Objetivos de segurança da informação", "Os objetivos de segurança são mensuráveis, coerentes com a política e acompanhados?", "Objetivos com meta, responsável, prazo, recursos e forma de avaliação; resultados monitorados e comunicados.", "Plano de objetivos, painel de indicadores.", "CSF GV.RM-01"], ["6.3", "Planejamento de mudanças", "Mudanças no SGSI são feitas de forma planejada?", "Mudanças relevantes (escopo, estrutura, processos) avaliadas antes da execução, com responsáveis e impactos considerados.", "Registro de mudanças do SGSI, atas de decisão.", "CSF ID.RA-07"]]}, {"k": "7", "t": "Apoio", "d": "Cláusula 7 · recursos, competência, conscientização, comunicação e informação documentada.", "i": [["7.1", "Recursos", "Os recursos necessários para operar e melhorar o SGSI foram determinados e disponibilizados?", "Pessoas, ferramentas e orçamento compatíveis com o escopo e com o plano de tratamento.", "Orçamento, quadro da equipe, contratos de ferramentas.", "CSF GV.RR-03"], ["7.2", "Competência", "As pessoas com funções que afetam a segurança têm competência comprovada por formação, treinamento ou experiência?", "Requisitos de competência por função; lacunas tratadas com capacitação; eficácia avaliada.", "Matriz de competências, certificados, avaliações de treinamento.", "CSF PR.AT-02"], ["7.3", "Conscientização", "Os colaboradores conhecem a política, sabem como contribuem para o SGSI e quais as consequências de não seguir as regras?", "Programa de conscientização periódico; entrevistas por amostragem confirmam o entendimento.", "Plano de conscientização, registros de participação, resultados de simulações.", "CSF PR.AT-01"], ["7.4", "Comunicação", "Está definido o que comunicar sobre segurança, quando, para quem e por quem?", "Plano de comunicação interna e externa, incluindo comunicação com autoridades e clientes.", "Plano de comunicação, exemplos de comunicações enviadas.", "CSF GV.RM-05"], ["7.5", "Informação documentada", "A documentação do SGSI é criada, atualizada e controlada (versão, aprovação, acesso, retenção)?", "Documentos identificados e aprovados; versões obsoletas retiradas; registros protegidos e retidos pelo prazo definido; documentos externos controlados.", "Lista mestra de documentos, procedimento de controle, amostra de documentos.", "CSF GV.PO-02"]]}, {"k": "8", "t": "Operação", "d": "Cláusula 8 · controle operacional, execução da avaliação e do tratamento de riscos.", "i": [["8.1", "Planejamento e controle operacional", "Os processos necessários para atender aos requisitos são planejados, executados e controlados, inclusive os terceirizados?", "Critérios operacionais definidos; mudanças planejadas controladas e não planejadas analisadas; processos externos sob controle.", "Procedimentos operacionais, registros de execução, contratos com terceiros.", "CSF GV.SC-07"], ["8.2", "Avaliação de riscos realizada", "As avaliações de riscos são feitas em intervalos planejados e quando ocorrem mudanças significativas?", "Avaliações recentes, coerentes com a metodologia; gatilhos de reavaliação aplicados.", "Relatórios de avaliação, histórico, registros de gatilhos.", "CSF ID.RA-05"], ["8.3", "Tratamento de riscos implementado", "O plano de tratamento de riscos está sendo executado e os resultados registrados?", "Ações concluídas com evidência; atrasos justificados e escalados.", "Status do plano de tratamento, evidências de implementação.", "CSF ID.RA-06"]]}, {"k": "9", "t": "Avaliação de desempenho", "d": "Cláusula 9 · monitoramento e medição, auditoria interna e análise crítica pela direção.", "i": [["9.1", "Monitoramento, medição e avaliação", "Está definido o que medir, como, quando, por quem e quem analisa os resultados?", "Indicadores do SGSI e dos controles com método, frequência e responsável; resultados analisados e usados em decisões.", "Plano de medição, painel de indicadores, relatórios.", "CSF GV.OV-03"], ["9.2", "Auditoria interna", "Existe programa de auditoria interna com critérios, escopo e auditores imparciais, e os resultados chegam à direção?", "Programa que cobre todo o SGSI no ciclo; auditores que não auditam o próprio trabalho; relatórios e achados tratados.", "Programa de auditoria, relatórios, qualificação dos auditores.", "CSF ID.IM-01"], ["9.3", "Análise crítica pela direção", "A direção analisa criticamente o SGSI em intervalos planejados, com todas as entradas exigidas, e registra decisões?", "Entradas: ações anteriores, mudanças de contexto, desempenho, auditorias, riscos e oportunidades de melhoria. Saídas: decisões e necessidades de mudança.", "Ata da análise crítica, apresentação usada.", "CSF GV.OV-01 · GV.OV-02"]]}, {"k": "10", "t": "Melhoria", "d": "Cláusula 10 · melhoria contínua, não conformidades e ações corretivas.", "i": [["10.1", "Melhoria contínua", "Há evidências de que o SGSI melhora de forma contínua em adequação e eficácia?", "Melhorias registradas a partir de auditorias, incidentes, indicadores e sugestões.", "Registro de melhorias, comparação de indicadores entre ciclos.", "CSF ID.IM-01 · ID.IM-03"], ["10.2", "Não conformidade e ação corretiva", "As não conformidades são corrigidas, a causa é analisada e a eficácia da ação corretiva é verificada?", "Registro de cada não conformidade com causa raiz, ação, prazo e verificação de eficácia; ações proporcionais ao efeito.", "Registro de não conformidades, análises de causa, verificações de eficácia.", "CSF ID.IM-03"]]}, {"k": "A.5", "t": "Controles organizacionais", "d": "Anexo A · tema 5 · políticas, ativos, acesso, fornecedores, incidentes, continuidade e requisitos legais.", "i": [["A.5.1", "Políticas de segurança", "As políticas temáticas de segurança estão definidas, aprovadas, comunicadas e revisadas?", "Conjunto de políticas (acesso, uso aceitável, criptografia, backup e outras) com dono, aprovação e revisão periódica.", "Políticas, registro de revisões, evidência de divulgação.", "CSF GV.PO-01 · GV.PO-02"], ["A.5.7", "Inteligência de ameaças", "Informações sobre ameaças são coletadas, analisadas e usadas para orientar controles?", "Fontes definidas; análise periódica; ações tomadas a partir dos alertas.", "Assinaturas de fontes, relatórios de análise, tickets gerados.", "CSF ID.RA-02 · DE.AE-07"], ["A.5.9", "Inventário de ativos", "Existe inventário de informações e outros ativos associados, com dono designado?", "Inventário completo, atualizado e conciliado, incluindo nuvem e SaaS.", "Inventário, conciliação recente, lista de donos.", "CSF ID.AM-01 · ID.AM-02"], ["A.5.12", "Classificação da informação", "A informação é classificada conforme confidencialidade, integridade, disponibilidade e requisitos das partes interessadas?", "Esquema de classificação definido e aplicado; rotulagem e regras de manuseio conhecidas.", "Política de classificação, amostra de documentos rotulados.", "CSF ID.AM-05"], ["A.5.15", "Controle de acesso", "As regras de controle de acesso físico e lógico são definidas pela necessidade do negócio e de segurança?", "Política de acesso baseada em menor privilégio e necessidade de conhecer; perfis por função.", "Política, matriz de perfis, revisões de acesso.", "CSF PR.AA-05"], ["A.5.19", "Segurança com fornecedores", "Os riscos associados a produtos e serviços de fornecedores são gerenciados?", "Fornecedores classificados por criticidade; requisitos de segurança definidos antes da contratação; avaliações periódicas.", "Inventário de fornecedores, avaliações, critérios de classificação.", "CSF GV.SC-04 · GV.SC-07"], ["A.5.23", "Serviços em nuvem", "Aquisição, uso, gestão e saída de serviços em nuvem seguem requisitos de segurança?", "Processo para aprovar serviços em nuvem; responsabilidades compartilhadas documentadas; plano de saída.", "Política de nuvem, matriz de responsabilidades, registros de aprovação.", "CSF GV.SC-05 · ID.AM-04"], ["A.5.24", "Preparação para incidentes", "A gestão de incidentes está planejada, com processos, papéis e responsabilidades definidos?", "Plano de resposta aprovado, equipe definida, contatos atualizados, critérios de classificação.", "Plano de resposta, lista de contatos, registros de testes.", "CSF ID.IM-04 · RS.MA-01"], ["A.5.30", "Prontidão de TIC para continuidade", "A prontidão de TIC é planejada, implementada e testada conforme objetivos de continuidade?", "RTO e RPO definidos a partir da análise de impacto; planos de recuperação de TIC testados.", "Análise de impacto, planos de recuperação, relatórios de teste.", "CSF PR.IR-03 · RC.RP-01"], ["A.5.34", "Privacidade e proteção de dados pessoais", "Os requisitos de privacidade e de proteção de dados pessoais são identificados e atendidos?", "Requisitos da LGPD e de contratos mapeados; controles aplicados; encarregado definido.", "Registro de tratamento, política de privacidade, nomeação do encarregado.", "CSF GV.OC-03 · 27701"]]}, {"k": "A.6", "t": "Controles de pessoas", "d": "Anexo A · tema 6 · seleção, conscientização, desligamento, trabalho remoto e relato de eventos.", "i": [["A.6.1", "Seleção de pessoal", "A verificação de antecedentes é feita antes da contratação, de forma proporcional ao risco e conforme a lei?", "Critérios por função; verificações registradas; respeito à legislação trabalhista e de privacidade.", "Procedimento de seleção, amostra de verificações.", "CSF GV.RR-04"], ["A.6.3", "Conscientização, educação e treinamento", "Os colaboradores e partes relevantes recebem conscientização e treinamento adequados à função?", "Conteúdo atualizado, treinamentos específicos para funções críticas, registros de conclusão.", "Plano anual, relatórios de conclusão, materiais.", "CSF PR.AT-01 · PR.AT-02"], ["A.6.5", "Responsabilidades após o desligamento", "As responsabilidades de segurança que continuam após o desligamento ou a mudança de função são definidas e comunicadas?", "Termos de confidencialidade com vigência pós-contrato; revogação de acessos e devolução de ativos.", "Termos assinados, checklist de desligamento.", "CSF GV.RR-04"], ["A.6.7", "Trabalho remoto", "Há medidas de segurança para o trabalho remoto?", "Regras de uso de dispositivos, redes e locais; acesso remoto protegido; dispositivos gerenciados.", "Política de trabalho remoto, configuração de VPN ou ZTNA, MDM.", "CSF PR.AA-05 · PR.IR-01"], ["A.6.8", "Relato de eventos de segurança", "Existe canal para que as pessoas relatem eventos de segurança de forma rápida?", "Canal conhecido e usado; eventos relatados registrados e triados.", "Canal de relato, registros de eventos recebidos.", "CSF DE.AE-06 · RS.MA-02"]]}, {"k": "A.7", "t": "Controles físicos", "d": "Anexo A · tema 7 · perímetros, entrada, monitoramento, mídias e descarte de equipamentos.", "i": [["A.7.1", "Perímetros de segurança física", "Os perímetros que protegem áreas com informações e ativos estão definidos e são usados?", "Áreas seguras delimitadas; barreiras proporcionais ao risco.", "Planta com áreas classificadas, inspeção visual.", "CSF PR.AA-06"], ["A.7.2", "Controle de entrada física", "A entrada em áreas seguras é protegida por controles de acesso e registros?", "Crachás ou biometria; registro de visitantes; revisão periódica dos acessos físicos.", "Logs do controle de acesso, livro de visitantes, revisões.", "CSF PR.AA-06"], ["A.7.4", "Monitoramento físico", "As instalações são monitoradas continuamente contra acesso físico não autorizado?", "CFTV, alarmes e monitoramento com retenção e resposta definidas.", "Configuração do CFTV, procedimentos de resposta, registros de alarmes.", "CSF DE.CM-02"], ["A.7.10", "Mídias de armazenamento", "As mídias são gerenciadas durante todo o ciclo de vida, conforme a classificação?", "Controle de mídias removíveis, criptografia, transporte seguro e descarte.", "Política de mídias, configuração de bloqueio de USB, registros de descarte.", "CSF PR.DS-01 · ID.AM-08"], ["A.7.14", "Descarte ou reutilização de equipamentos", "Equipamentos com mídias são verificados para que dados sensíveis sejam apagados antes do descarte ou reutilização?", "Procedimento de sanitização; certificados de destruição quando terceirizado.", "Procedimento, certificados, registros de sanitização.", "CSF ID.AM-08 · PR.PS-03"]]}, {"k": "A.8", "t": "Controles tecnológicos", "d": "Anexo A · tema 8 · privilégios, autenticação, malware, vulnerabilidades, configuração, backup, logs, redes, criptografia e desenvolvimento.", "i": [["A.8.2", "Direitos de acesso privilegiado", "A concessão e o uso de acesso privilegiado são restritos e gerenciados?", "Contas privilegiadas mínimas, separadas e aprovadas; uso via cofre ou PAM; revisão frequente.", "Lista de administradores, configuração do PAM, revisões.", "CSF PR.AA-05"], ["A.8.5", "Autenticação segura", "A autenticação usa tecnologias e procedimentos adequados à sensibilidade do acesso?", "MFA em acessos remotos, privilegiados e a sistemas expostos; política de senhas atual.", "Configuração do IdP, relatório de cobertura de MFA.", "CSF PR.AA-03"], ["A.8.7", "Proteção contra malware", "A proteção contra malware está implementada e apoiada por conscientização?", "EDR ou antimalware com cobertura acompanhada; atualização automática; alertas tratados.", "Console do EDR, relatório de cobertura.", "CSF DE.CM-09"], ["A.8.8", "Vulnerabilidades técnicas", "As vulnerabilidades são identificadas, avaliadas e tratadas em prazos definidos?", "Varreduras periódicas; prazos por severidade; indicadores de correção.", "Relatórios de varredura, indicadores de prazo, exceções aprovadas.", "CSF ID.RA-01 · PR.PS-02"], ["A.8.9", "Gestão de configuração", "As configurações de hardware, software, serviços e redes são estabelecidas, documentadas, monitoradas e revisadas?", "Baselines seguras aplicadas; desvios monitorados.", "Baselines, relatórios de conformidade de configuração.", "CSF PR.PS-01"], ["A.8.13", "Backup", "Cópias de segurança são feitas e testadas conforme a política acordada?", "Frequência alinhada ao RPO; cópia isolada ou imutável; testes de restauração documentados.", "Política de backup, relatórios de execução e de teste.", "CSF PR.DS-11 · RC.RP-03"], ["A.8.15", "Registro de logs", "Logs de atividades, exceções e falhas são gerados, armazenados, protegidos e analisados?", "Fontes críticas enviando logs a repositório central protegido, com retenção definida.", "Lista de fontes, configuração do SIEM, política de retenção.", "CSF PR.PS-04"], ["A.8.16", "Monitoramento de atividades", "Redes, sistemas e aplicações são monitorados para comportamentos anômalos, com ações de resposta?", "Casos de uso de detecção ativos; alertas triados dentro de prazo.", "Casos de uso do SIEM, alertas tratados, indicadores do SOC.", "CSF DE.CM-01 · DE.CM-03"], ["A.8.20", "Segurança de redes", "As redes e os dispositivos de rede são protegidos, gerenciados e controlados?", "Segmentação, regras de firewall revisadas, gestão segura dos equipamentos de rede.", "Diagrama de rede, revisão de regras, configuração dos equipamentos.", "CSF PR.IR-01"], ["A.8.24", "Uso de criptografia", "Há regras para o uso eficaz de criptografia, incluindo gestão de chaves?", "Padrões de algoritmos e tamanhos; criptografia em repouso e em trânsito conforme classificação; ciclo de vida das chaves.", "Política de criptografia, configurações, procedimento de chaves.", "CSF PR.DS-01 · PR.DS-02"], ["A.8.25", "Ciclo de desenvolvimento seguro", "Existem regras para o desenvolvimento seguro de software e sistemas?", "Requisitos de segurança nos projetos; revisão de código; testes de segurança no pipeline; ambientes segregados.", "Política de desenvolvimento seguro, pipeline, relatórios de testes.", "CSF PR.PS-06"], ["A.8.32", "Gestão de mudanças", "As mudanças em instalações de processamento e sistemas seguem um processo de gestão de mudanças?", "Avaliação de impacto, aprovação, teste e plano de retorno para cada mudança.", "Registros de mudança, atas do comitê de mudanças.", "CSF ID.RA-07"]]}]}, {"id": "csf", "code": "NIST CSF 2.0", "short": "CSF 2.0", "name": "Cybersecurity Framework", "desc": "Framework voluntário do NIST com seis funções: Govern, Identify, Protect, Detect, Respond e Recover. Amostra das subcategorias de maior impacto.", "color": "#4F46E5", "light": "#C7C9FA", "ink": "#4338CA", "steps": [{"k": "GV", "t": "Govern · contexto, risco e papéis", "d": "GV.OC, GV.RM, GV.RR, GV.PO e GV.OV · estratégia, expectativas e políticas de gestão de riscos de cibersegurança.", "i": [["GV.OC-01", "Missão orienta a gestão de riscos", "A missão da organização é compreendida e orienta a gestão de riscos de cibersegurança?", "Prioridades de segurança derivadas dos objetivos de negócio; plano estratégico de segurança aprovado.", "Plano estratégico de segurança, ata de aprovação, mapa de processos críticos.", "27001 4.1"], ["GV.OC-03", "Requisitos legais e contratuais", "Requisitos legais, regulatórios e contratuais de cibersegurança, inclusive privacidade, são compreendidos e gerenciados?", "Inventário de requisitos (LGPD, regulação setorial, contratos) com responsável e revisão periódica.", "Matriz de requisitos legais, pareceres, contratos com cláusulas de segurança.", "27001 4.2 · A.5.31 · A.5.34"], ["GV.RM-02", "Apetite e tolerância a risco", "Declarações de apetite e tolerância a risco estão estabelecidas, comunicadas e mantidas?", "Apetite aprovado pela alta direção e traduzido em critérios usados nas decisões de tratamento.", "Declaração de apetite a risco, critérios de aceitação, ata do comitê de riscos.", "27001 6.1.2 · 27005 6.4.2"], ["GV.RM-03", "Integração ao risco corporativo", "Os riscos de cibersegurança estão incluídos na gestão de riscos corporativos (ERM)?", "Riscos cibernéticos na matriz corporativa, com a mesma escala e reportados ao mesmo fórum.", "Matriz de riscos corporativos, reportes ao comitê ou conselho.", "COSO ERM 14 · ISO 31000 5.3"], ["GV.RM-06", "Método padronizado de risco", "Existe método padronizado para calcular, documentar, categorizar e priorizar riscos de cibersegurança?", "Metodologia documentada, com escalas de impacto e probabilidade, aplicada de forma consistente.", "Metodologia de riscos, amostra de avaliações.", "27001 6.1.2"], ["GV.RR-01", "Responsabilidade da liderança", "A liderança é responsável pelo risco cibernético e promove cultura consciente de riscos, ética e de melhoria contínua?", "Segurança na pauta da alta direção; metas e indicadores acompanhados; patrocínio visível.", "Atas de reuniões da diretoria, reportes ao conselho, comunicações da liderança.", "27001 5.1"], ["GV.RR-02", "Papéis e autoridades", "Papéis, responsabilidades e autoridades de gestão de riscos cibernéticos estão definidos, comunicados e aplicados?", "Responsabilidades formalizadas, inclusive dono de cada risco e de cada ativo crítico.", "Matriz RACI, descrições de cargo, nomeações formais.", "27001 5.3 · A.5.2"], ["GV.PO-01", "Política de segurança", "A política de gestão de riscos cibernéticos foi estabelecida com base no contexto e na estratégia, e é comunicada e aplicada?", "Política aprovada, publicada, conhecida pelos colaboradores e com mecanismos de cumprimento.", "Política, registro de ciência, ações disciplinares ou de cumprimento.", "27001 5.2 · A.5.1"], ["GV.OV-01", "Revisão da estratégia", "Os resultados da estratégia de gestão de riscos são revisados para ajustar a direção?", "Revisão periódica com indicadores, incidentes e mudanças de cenário, com decisões registradas.", "Ata de análise crítica, painel de indicadores.", "27001 9.3"]]}, {"k": "GV.SC", "t": "Govern · cadeia de suprimentos", "d": "GV.SC · gestão de riscos de cibersegurança na cadeia de suprimentos e em terceiros.", "i": [["GV.SC-04", "Fornecedores conhecidos e priorizados", "Os fornecedores são conhecidos e classificados por criticidade?", "Cadastro de fornecedores com classificação de criticidade e dados tratados.", "Inventário de fornecedores, critérios de classificação.", "27001 A.5.19"], ["GV.SC-05", "Requisitos em contratos", "Requisitos de cibersegurança para a cadeia de suprimentos estão estabelecidos e integrados aos contratos?", "Cláusulas de segurança, notificação de incidentes, direito de auditoria e subcontratação.", "Modelo de contrato, amostra de contratos assinados.", "27001 A.5.20"], ["GV.SC-07", "Riscos de fornecedores ao longo da relação", "Os riscos de cada fornecedor são avaliados, respondidos e monitorados durante toda a relação?", "Avaliação inicial e reavaliação periódica proporcional à criticidade; achados tratados.", "Questionários, relatórios SOC 2 ou ISO, plano de ação com fornecedores.", "27001 A.5.22"], ["GV.SC-08", "Fornecedores na resposta a incidentes", "Fornecedores relevantes estão incluídos no planejamento, na resposta e na recuperação de incidentes?", "Contatos e responsabilidades definidos; fornecedores críticos participam de exercícios.", "Plano de resposta com contatos, registros de exercícios conjuntos.", "27001 A.5.24"], ["GV.SC-10", "Encerramento da relação", "O plano prevê atividades após o fim do contrato, como devolução e eliminação de dados e revogação de acessos?", "Checklist de saída de fornecedor executado e evidenciado.", "Termo de encerramento, evidência de revogação e eliminação.", "27001 A.5.20"]]}, {"k": "ID", "t": "Identify · ativos, riscos e melhoria", "d": "ID.AM, ID.RA e ID.IM · conhecer ativos, avaliar riscos e identificar melhorias.", "i": [["ID.AM-01", "Inventário de hardware", "Os inventários de hardware gerenciado pela organização são mantidos?", "Inventário automatizado e conciliado, com dono e localização.", "Relatório do CMDB ou ferramenta de descoberta, conciliação recente.", "27001 A.5.9 · CIS 1.1"], ["ID.AM-02", "Inventário de software, serviços e sistemas", "Os inventários de software, serviços e sistemas são mantidos?", "Inventário inclui SaaS, nuvem e APIs, com versão e dono.", "Inventário de software, relatório de SaaS descobertos.", "27001 A.5.9 · CIS 2.1"], ["ID.AM-03", "Fluxos de rede e de dados", "Representações das comunicações de rede autorizadas e dos fluxos de dados internos e externos são mantidas?", "Diagramas atualizados, inclusive conexões com terceiros e nuvem.", "Diagramas de rede e de fluxo de dados com data de revisão.", "27001 A.5.14 · A.8.20"], ["ID.AM-07", "Inventário de dados", "Inventários de dados e metadados de tipos de dados designados são mantidos?", "Dados sensíveis e pessoais mapeados, com localização, dono e classificação.", "Catálogo de dados, mapeamento de dados pessoais.", "27001 A.5.12 · 27701 A.1.2.9"], ["ID.RA-01", "Vulnerabilidades identificadas", "Vulnerabilidades nos ativos são identificadas, validadas e registradas?", "Varredura periódica com cobertura conhecida; resultados validados e registrados.", "Relatórios de varredura, indicadores de cobertura.", "27001 A.8.8"], ["ID.RA-02", "Inteligência de ameaças", "A organização recebe inteligência de ameaças de fóruns e fontes de compartilhamento?", "Fontes definidas (CERT, ISAC setorial, fornecedores) e informação usada nas decisões.", "Assinaturas, registros de alertas analisados.", "27001 A.5.7"], ["ID.RA-05", "Risco inerente e priorização", "Ameaças, vulnerabilidades, probabilidades e impactos são usados para entender o risco inerente e priorizar respostas?", "Avaliação de riscos completa e priorizada conforme o método aprovado.", "Relatório de avaliação de riscos, matriz de riscos.", "27001 6.1.2 · 8.2"], ["ID.RA-07", "Mudanças e exceções", "Mudanças e exceções são gerenciadas, avaliadas quanto ao risco, registradas e acompanhadas?", "Exceções com prazo, aprovação do dono do risco e controles compensatórios.", "Registro de exceções, registros de mudança com análise de risco.", "27001 6.3 · A.8.32"], ["ID.IM-04", "Planos de resposta mantidos", "Os planos de resposta a incidentes e outros planos de cibersegurança são estabelecidos, comunicados, mantidos e melhorados?", "Planos revisados após testes e incidentes, com versões controladas.", "Plano de resposta, histórico de revisões, lições aprendidas.", "27001 A.5.24 · A.5.29"]]}, {"k": "PR", "t": "Protect · identidade, dados e plataformas", "d": "PR.AA, PR.AT, PR.DS, PR.PS e PR.IR · salvaguardas para gerenciar os riscos.", "i": [["PR.AA-01", "Identidades e credenciais", "Identidades e credenciais de usuários, serviços e hardware autorizados são gerenciadas?", "Ciclo de vida de identidades integrado ao RH; contas de serviço inventariadas e com dono.", "Procedimento de IAM, amostra de admissões e desligamentos.", "27001 A.5.16"], ["PR.AA-03", "Autenticação", "Usuários, serviços e hardware são autenticados de forma proporcional ao risco?", "MFA para acesso remoto, privilegiado e a sistemas expostos; autenticação de serviços sem segredos fixos no código.", "Configuração do IdP, cobertura de MFA, relatório de exceções.", "27001 A.8.5 · CIS 6.3–6.5"], ["PR.AA-05", "Permissões e menor privilégio", "As permissões seguem política, menor privilégio e segregação de funções, e são revisadas?", "Revisões periódicas de acesso concluídas; conflitos de segregação tratados; acessos privilegiados controlados.", "Evidência de revisão de acessos, matriz de segregação, cofre de senhas.", "27001 A.5.15 · A.5.18 · A.8.2"], ["PR.AT-01", "Conscientização geral", "Os colaboradores recebem conscientização e treinamento para executar suas tarefas considerando riscos cibernéticos?", "Programa anual com conteúdo atualizado, simulações de phishing e indicadores de participação.", "Plano de conscientização, relatórios de conclusão, resultados de simulações.", "27001 7.3 · A.6.3"], ["PR.DS-01", "Dados em repouso", "A confidencialidade, integridade e disponibilidade dos dados em repouso são protegidas?", "Criptografia em bancos, discos, backups e dispositivos móveis conforme a classificação.", "Configurações de criptografia, política de criptografia.", "27001 A.8.24"], ["PR.DS-02", "Dados em trânsito", "Os dados em trânsito são protegidos?", "TLS atualizado em canais externos e internos sensíveis; protocolos inseguros desabilitados.", "Varredura de configuração TLS, padrões de criptografia.", "27001 A.5.14 · A.8.24"], ["PR.DS-11", "Backups", "Os backups são criados, protegidos, mantidos e testados?", "Cópias imutáveis ou isoladas, testes de restauração periódicos e documentados.", "Política de backup, relatórios de teste de restauração.", "27001 A.8.13"], ["PR.PS-01", "Gestão de configuração", "Práticas de gestão de configuração estão estabelecidas e aplicadas?", "Baselines seguras (CIS Benchmarks ou equivalentes) aplicadas e monitoradas.", "Baselines documentadas, relatório de conformidade de configuração.", "27001 A.8.9"], ["PR.PS-04", "Geração de logs", "Os registros de log são gerados e disponibilizados para monitoramento contínuo?", "Fontes críticas enviando logs ao SIEM com retenção definida.", "Lista de fontes de log, configuração do SIEM, política de retenção.", "27001 A.8.15"], ["PR.PS-06", "Desenvolvimento seguro", "Práticas de desenvolvimento seguro estão integradas e seu desempenho é monitorado no ciclo de vida?", "SAST, SCA e revisão de código no pipeline; requisitos de segurança nos projetos; métricas de vulnerabilidades.", "Pipeline de CI/CD, relatórios de ferramentas, política de SDL.", "27001 A.8.25–A.8.28"], ["PR.IR-01", "Proteção de redes e ambientes", "Redes e ambientes são protegidos contra acesso lógico e uso não autorizados?", "Segmentação, controle de tráfego entre zonas e acesso remoto protegido.", "Diagrama de segmentação, regras de firewall, revisão de regras.", "27001 A.8.20–A.8.22"]]}, {"k": "DE", "t": "Detect · monitoramento e análise", "d": "DE.CM e DE.AE · encontrar e analisar eventos adversos.", "i": [["DE.CM-01", "Monitoramento de redes", "Redes e serviços de rede são monitorados para encontrar eventos adversos?", "Monitoramento de tráfego e alertas com cobertura dos segmentos críticos.", "Casos de uso do SIEM ou NDR, alertas recentes tratados.", "27001 A.8.16"], ["DE.CM-03", "Atividade de pessoas e uso de tecnologia", "A atividade das pessoas e o uso de tecnologia são monitorados para encontrar eventos adversos?", "Alertas para comportamento anômalo, acessos privilegiados e uso indevido.", "Regras de detecção, relatórios de UEBA, alertas analisados.", "27001 A.8.16"], ["DE.CM-09", "Monitoramento de endpoints e cargas", "Hardware, software, ambientes de execução e seus dados são monitorados?", "EDR com cobertura conhecida; monitoramento de cargas em nuvem e contêineres.", "Console do EDR, relatório de cobertura.", "27001 A.8.7 · A.8.16"], ["DE.AE-03", "Correlação de fontes", "Informações de várias fontes são correlacionadas?", "SIEM correlacionando identidade, rede, endpoint e nuvem.", "Regras de correlação, exemplos de investigações.", "27001 A.8.16"], ["DE.AE-08", "Declaração de incidentes", "Incidentes são declarados quando os eventos atendem aos critérios definidos?", "Critérios documentados e aplicados de forma consistente pelo SOC.", "Critérios de declaração, registros de triagem.", "27001 A.5.25"]]}, {"k": "RS", "t": "Respond · gestão e contenção", "d": "RS.MA, RS.AN, RS.CO e RS.MI · agir sobre incidentes detectados.", "i": [["RS.MA-01", "Execução do plano de resposta", "O plano de resposta é executado em coordenação com terceiros relevantes após a declaração do incidente?", "Plano acionado conforme previsto, com papéis cumpridos e terceiros envolvidos.", "Registros de incidentes, linha do tempo, comunicações.", "27001 A.5.26"], ["RS.MA-03", "Categorização e priorização", "Os incidentes são categorizados e priorizados?", "Taxonomia e matriz de severidade aplicadas.", "Matriz de severidade, amostra de tickets.", "27001 A.5.25"], ["RS.AN-03", "Causa raiz", "É feita análise para entender o que ocorreu e a causa raiz do incidente?", "Relatório pós-incidente com causa raiz e ações corretivas.", "Relatórios de lições aprendidas.", "27001 A.5.27"], ["RS.AN-07", "Preservação de evidências", "Dados e metadados do incidente são coletados com integridade e cadeia de custódia preservadas?", "Procedimento forense com hash e registro de custódia.", "Procedimento de coleta, registros de custódia.", "27001 A.5.28"], ["RS.CO-02", "Notificação de partes interessadas", "As partes internas e externas são notificadas sobre incidentes, inclusive autoridades quando exigido?", "Critérios e prazos de notificação conhecidos (por exemplo, ANPD e reguladores).", "Matriz de comunicação, notificações enviadas.", "27001 A.5.5 · A.5.24 · 27701 A.3.12"], ["RS.MI-01", "Contenção", "Os incidentes são contidos?", "Ações de contenção pré-definidas (isolamento, bloqueio de contas, segmentação) e executadas.", "Playbooks, registros de execução.", "27001 A.5.26"]]}, {"k": "RC", "t": "Recover · recuperação e comunicação", "d": "RC.RP e RC.CO · restaurar ativos e operações afetados por incidentes.", "i": [["RC.RP-01", "Execução da recuperação", "A parte de recuperação do plano é executada quando acionada pelo processo de resposta?", "Critérios de transição da resposta para a recuperação definidos e seguidos.", "Plano de recuperação, registros de acionamento.", "27001 A.5.29 · A.5.30"], ["RC.RP-03", "Integridade dos backups antes de restaurar", "A integridade dos backups e de outros ativos de restauração é verificada antes do uso?", "Verificação de integridade e ausência de malware antes da restauração.", "Procedimento de restauração, registros de verificação.", "27001 A.8.13"], ["RC.RP-05", "Integridade dos ativos restaurados", "A integridade dos ativos restaurados é verificada e o funcionamento normal confirmado?", "Testes funcionais e de segurança após a restauração, com aceite do dono do serviço.", "Checklist de retorno, aceite formal.", "27001 A.5.30"], ["RC.CO-03", "Comunicação da recuperação", "O andamento da recuperação é comunicado às partes internas e externas designadas?", "Atualizações periódicas a dirigentes, clientes e reguladores conforme o plano.", "Comunicados, atas do comitê de crise.", "27001 A.5.29"]]}]}], "refs": [["ISO/IEC 27001:2022", "Certificável", "Sistema de gestão de segurança da informação: cláusulas 4 a 10 e amostra dos 93 controles do Anexo A."], ["NIST CSF 2.0", "Framework", "Cybersecurity Framework 2.0, de fevereiro de 2024: seis funções, 22 categorias e 106 subcategorias. Amostra das subcategorias de maior impacto."]], "notes": ["Funciona sem internet: nada é carregado de fora e nada é enviado. As respostas ficam guardadas neste navegador, separadas por roteiro. Use <b>Exportar backup<\/b> para levar a auditoria para outro computador.", "Cada requisito foi escrito como pergunta de auditoria, com o número da cláusula ou do controle para consulta. O texto não reproduz a norma: confira sempre a publicação oficial.", "Os itens da ISO/IEC 27001 apontam as subcategorias do CSF, e os do CSF apontam os controles da ISO. Assim o mesmo trabalho de campo serve para os dois.", "As correlações (⇄) apontam requisitos equivalentes em outros referenciais. São um apoio para auditoria integrada, não um mapeamento oficial.", "Roteiro preparado com apoio de IA. Revise perguntas e correlações antes de usar numa auditoria formal."], "hints": {"nome": "Organização Exemplo Ltda.", "auditor": "Jaime — Auditor líder ISO/IEC 27001", "equipe": "Jaime (SOC)", "escopo": "Desenvolvimento e operação da plataforma de pagamentos, datacenter principal, ambiente em nuvem e SOC terceirizado.", "objetivo": "Verificar a conformidade do SGSI com a ISO/IEC 27001:2022 e medir o perfil atual frente ao NIST CSF 2.0."}, "terms": {"maj": "Requisito ausente, falha que se repete ou risco relevante ao SGSI. Na ISO/IEC 27001 bloqueia a certificação; no CSF indica distância grande entre o perfil atual e o perfil-alvo.", "majShort": "bloqueiam certificação", "majRec": "Elas impedem a certificação ISO/IEC 27001.", "keep": "Atualizar o perfil-alvo do CSF com base neste resultado e preparar a auditoria de certificação ISO/IEC 27001.", "conclMaj": "Há não conformidades maiores. Elas precisam ser resolvidas antes da auditoria de certificação ISO/IEC 27001.", "conclNo": "Nenhuma não conformidade maior foi encontrada. O SGSI pode seguir para a certificação após tratar os pontos menores.", "high": "O SGSI funciona de forma consistente. Restam ajustes pontuais.", "mid": "O SGSI está montado, mas há lacunas a fechar antes da certificação.", "part": "Muitos requisitos ainda estão incompletos. Vale montar um plano de ação com prazos e donos.", "low": "O SGSI ainda não está de pé. Comece por contexto, escopo, política, avaliação de riscos e Declaração de Aplicabilidade."}, "demo": {"nome": "Organização Exemplo Ltda.", "auditor": "Jaime — Auditor líder ISO/IEC 27001", "equipe": "Jaime (SOC)", "escopo": "Desenvolvimento e operação da plataforma de pagamentos, datacenter principal, ambiente em nuvem e SOC terceirizado.", "objetivo": "Verificar a conformidade do SGSI com a ISO/IEC 27001:2022 e medir o perfil atual frente ao NIST CSF 2.0.", "people": ["Jaime — Gerente de Infraestrutura", "Jaime — Coordenador de GRC", "Jaime — Analista de Segurança", "Jaime — Encarregado de Dados", "Jaime — Líder de Engenharia"]}}</script>
+<script>
+(function(){
+'use strict';
+var DECK = JSON.parse(document.getElementById('deck-data').textContent);
+var KEY = 'quality-audit-' + DECK.id + '-v1';
+var NORMS = DECK.norms;
+var TM = DECK.terms;
+var ST = {
+  C:{l:'Conforme', s:'C', c:'#15803D', b:'#DCFCE7', v:1},
+  P:{l:'Parcial', s:'P', c:'#B45309', b:'#FEF3C7', v:0.5},
+  NC:{l:'Não conforme', s:'NC', c:'#B91C1C', b:'#FEE2E2', v:0},
+  NA:{l:'Não aplicável', s:'N/A', c:'#475569', b:'#E2E8F0'}
+};
+var MAT = ['Inexistente','Inicial','Repetível','Definido','Gerenciado','Otimizado'];
+var MATD = [
+  'Nada implantado ou sem qualquer evidência.',
+  'Feito de forma informal, dependente de pessoas específicas.',
+  'Repetido na prática, mas sem documentação suficiente.',
+  'Documentado, aprovado e aplicado de forma padronizada.',
+  'Medido com indicadores e acompanhado pela gestão.',
+  'Melhorado de forma contínua a partir dos resultados.'
+];
+var LOGO = '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="7" fill="#14B8A6"/><circle cx="11.5" cy="11.5" r="5.6" fill="none" stroke="#032A2C" stroke-width="2.4"/><path d="M15.6 15.6l4.6 4.6" stroke="#032A2C" stroke-width="2.6" stroke-linecap="round"/><path d="M9 11.6l1.8 1.8 3.4-3.6" fill="none" stroke="#032A2C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function blank(){
+  return {view:'home', norms:NORMS.map(function(n){return n.id;}),
+    org:{nome:'', escopo:'', objetivo:'', auditor:'', equipe:'', inicio:'', fim:'', metodo:'Entrevistas, análise documental e verificação de evidências por amostragem.'},
+    ans:{}, si:0, filter:'all', rep:'exec', dash:'exec', pf:'all'};
+}
+function load(){
+  try {
+    var d = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (d && d.org) { var b = blank(); Object.assign(b, d); b.org = Object.assign(blank().org, d.org); b.ans = d.ans || {}; return b; }
+  } catch(e) {}
+  return blank();
+}
+var S = load();
+var guideOpen = {}, confirmReset = false, scrollTo = null;
+var saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(function(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }, 120); }
+
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function pct(x){ return x == null ? '—' : x + '%'; }
+function today(){ var d = new Date(); return d.toISOString().slice(0,10); }
+function fmt(iso){ if (!iso) return '—'; var p = iso.split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso; }
+function nById(id){ for (var i = 0; i < NORMS.length; i++) if (NORMS[i].id === id) return NORMS[i]; return null; }
+function sel(){ var s = NORMS.filter(function(n){ return S.norms.indexOf(n.id) >= 0; }); return s.length ? s : NORMS; }
+function itemObj(n, st, it){ return {n:n, st:st, ref:it[0], t:it[1], q:it[2], o:it[3], e:it[4], map:it[5] || '', key:n.id + '|' + it[0]}; }
+function steps(){
+  var out = [];
+  sel().forEach(function(n){ n.steps.forEach(function(st){ out.push({n:n, st:st, items:st.i.map(function(it){ return itemObj(n, st, it); })}); }); });
+  return out;
+}
+function allItems(){ var a = []; steps().forEach(function(s){ a = a.concat(s.items); }); return a; }
+function A(k){ return S.ans[k] || {}; }
+function setA(k, patch){ var a = Object.assign({}, S.ans[k] || {}, patch); Object.keys(a).forEach(function(x){ if (a[x] === undefined) delete a[x]; }); S.ans[k] = a; save(); }
+function stats(items){
+  var c = {C:0, P:0, NC:0, NA:0, maj:0, men:0, pend:0, total:items.length, sum:0, ev:0, matS:0, matN:0};
+  items.forEach(function(it){
+    var a = A(it.key);
+    if (typeof a.mat === 'number') { c.matS += a.mat; c.matN++; }
+    if (!a.st) { c.pend++; return; }
+    c[a.st]++;
+    if (a.st === 'NC') { if (a.sev === 'maior') c.maj++; else c.men++; }
+    if (a.st !== 'NA') { c.ev++; c.sum += ST[a.st].v; }
+  });
+  c.done = c.total - c.pend;
+  c.score = c.ev ? Math.round(c.sum / c.ev * 100) : null;
+  c.mat = c.matN ? Math.round(c.matS / c.matN * 10) / 10 : null;
+  return c;
+}
+function band(sc){
+  if (sc == null) return {bg:'#E2E8F0', fg:'#334155', bar:'#CBD5DF'};
+  if (sc >= 85) return {bg:'#15803D', fg:'#fff', bar:'#15803D'};
+  if (sc >= 70) return {bg:'#0E7490', fg:'#fff', bar:'#0E7490'};
+  if (sc >= 50) return {bg:'#D97706', fg:'#fff', bar:'#D97706'};
+  return {bg:'#B91C1C', fg:'#fff', bar:'#B91C1C'};
+}
+function verdict(sc){
+  if (sc == null) return {t:'Sem dados', d:'Avalie os requisitos para gerar o resultado.', c:'#475569'};
+  if (sc >= 85) return {t:'Consistente', d:TM.high, c:'#15803D'};
+  if (sc >= 70) return {t:'Em consolidação', d:TM.mid, c:'#0E7490'};
+  if (sc >= 50) return {t:'Parcial', d:TM.part, c:'#B45309'};
+  return {t:'Inicial', d:TM.low, c:'#B91C1C'};
+}
+function findings(){
+  return allItems().filter(function(it){ var s = A(it.key).st; return s === 'NC' || s === 'P'; }).map(function(it){
+    var a = A(it.key);
+    var type = a.st === 'NC' ? (a.sev === 'maior' ? 'NC maior' : 'NC menor') : 'Parcial';
+    return Object.assign({}, it, {a:a, type:type, rank: type === 'NC maior' ? 0 : type === 'NC menor' ? 1 : 2, cls: type === 'NC maior' ? 't-maj' : type === 'NC menor' ? 't-men' : 't-par'});
+  }).sort(function(x, y){ return x.rank - y.rank; });
+}
+function rfStyle(n){ return 'background:' + n.light + '55;color:' + n.ink; }
+function ring(score, size){
+  size = size || 132; var r = size / 2 - 10, C = 2 * Math.PI * r, v = score == null ? 0 : score;
+  var col = band(score).bar;
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '" role="img" aria-label="Índice ' + pct(score) + '">' +
+    '<circle cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" fill="none" stroke="#EDF2F5" stroke-width="12"/>' +
+    '<circle cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" fill="none" stroke="' + col + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (C * v / 100) + ' ' + C + '" transform="rotate(-90 ' + size/2 + ' ' + size/2 + ')"/>' +
+    '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="' + Math.round(size/4.2) + '" font-weight="800" fill="#0B1B2B">' + (score == null ? '—' : score) + '</text></svg>';
+}
+
+/* ---------- topo ---------- */
+function header(){
+  var it = allItems(), s = stats(it), p = s.total ? Math.round(s.done / s.total * 100) : 0;
+  var tabs = [['home','Início'],['audit','Auditoria'],['plan','Plano de ação'],['dash','Painel'],['rep','Relatórios']];
+  return '<header class="top"><div class="top-in">' +
+    '<button class="brand" data-act="nav" data-v="home">' + LOGO + '<b>Quality &amp; Audit</b><i>' + esc(DECK.tag) + '</i></button>' +
+    '<nav class="nav">' + tabs.map(function(t){ return '<button data-act="nav" data-v="' + t[0] + '" class="' + (S.view === t[0] ? 'on' : '') + '">' + t[1] + '</button>'; }).join('') + '</nav>' +
+    '<div class="prog"><div class="bar"><span style="width:' + p + '%"></span></div><span><b>' + s.done + '</b> de ' + s.total + ' avaliados</span></div>' +
+    '</div></header>';
+}
+
+/* ---------- início ---------- */
+function vHome(){
+  var it = allItems(), s = stats(it), st = steps();
+  var H = DECK.hints || {};
+  function fld(k, label, hint, wide, type){
+    var val = esc(S.org[k] || ''), ph = H[k] ? ' placeholder="Ex.: ' + esc(H[k]) + '"' : '';
+    var input = type === 'area' ? '<textarea data-org="' + k + '"' + ph + '>' + val + '</textarea>' :
+      '<input type="' + (type || 'text') + '" data-org="' + k + '" value="' + val + '"' + ph + '>';
+    return '<label class="f' + (wide ? ' wide' : '') + '">' + label + input + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+  }
+  var normCards = NORMS.map(function(n){
+    var on = S.norms.indexOf(n.id) >= 0, cnt = n.steps.reduce(function(a, x){ return a + x.i.length; }, 0);
+    return '<button class="norm' + (on ? ' on' : '') + '" style="--nc-color:' + n.color + '" data-act="norm" data-v="' + n.id + '" aria-pressed="' + on + '">' +
+      '<span class="chk">' + (on ? '✓' : '') + '</span><span class="code" style="color:' + n.ink + '">' + esc(n.code) + '</span>' +
+      '<h3>' + esc(n.name) + '</h3><p>' + esc(n.desc) + '</p>' +
+      '<div class="meta"><span><b>' + n.steps.length + '</b> etapas</span><span><b>' + cnt + '</b> requisitos</span></div></button>';
+  }).join('');
+  var refs = DECK.refs.map(function(r){ return '<div class="ref"><div class="t"><b>' + esc(r[0]) + '</b><span class="pill">' + esc(r[1]) + '</span></div><span class="d">' + esc(r[2]) + '</span></div>'; }).join('');
+  var notes = DECK.notes.map(function(n){ return '<p>' + n + '</p>'; }).join('');
+  var reset = confirmReset ?
+    '<span style="font-weight:700;color:var(--nc)">Apagar todas as respostas deste roteiro?</span><button class="btn btn-red btn-sm" data-act="resetYes">Sim, apagar</button><button class="btn btn-sec btn-sm" data-act="resetNo">Cancelar</button>' :
+    '<button class="btn btn-red btn-sm" data-act="reset">Limpar auditoria</button>';
+  return '<section class="hero"><div class="hero-in"><div>' +
+    '<div class="kick">Quality &amp; Audit · ' + esc(DECK.tag) + '</div>' +
+    '<h1>' + esc(DECK.h1) + ' <em>passo a passo.</em></h1>' +
+    '<p class="lead">' + esc(DECK.lead) + '</p>' +
+    '<div class="cta"><button class="btn btn-pri" data-act="nav" data-v="audit">' + (s.done ? 'Continuar auditoria' : 'Começar auditoria') + ' →</button><button class="btn btn-line" data-act="demo">Carregar exemplo</button></div>' +
+    '</div><div class="hero-card">' +
+    '<div class="row"><span>Referenciais selecionados</span><b>' + sel().length + '</b></div>' +
+    '<div class="row"><span>Etapas</span><b>' + st.length + '</b></div>' +
+    '<div class="row"><span>Requisitos</span><b>' + s.total + '</b></div>' +
+    '<div class="row"><span>Índice atual</span><b>' + pct(s.score) + '</b></div>' +
+    '</div></div></section>' +
+    '<div class="wrap">' +
+    '<div class="sec"><div class="sec-h"><span class="n">01</span><span class="ln"></span><h2>Dados da auditoria</h2><p>Salvos automaticamente neste navegador</p></div>' +
+    '<div class="card form">' +
+      fld('nome', 'Organização auditada', 'Nome que vai aparecer nos relatórios.') +
+      fld('auditor', 'Auditor líder', 'Quem conduz e assina o relatório.') +
+      fld('escopo', 'Escopo', 'Processos, sistemas, unidades e fornecedores incluídos.', true, 'area') +
+      fld('objetivo', 'Objetivo', 'Por que a auditoria está sendo feita e o que se espera dela.', true, 'area') +
+      fld('equipe', 'Equipe auditora', 'Demais auditores e especialistas, separados por vírgula.') +
+      fld('metodo', 'Método', 'Como as evidências serão coletadas.') +
+      fld('inicio', 'Início', '', false, 'date') + fld('fim', 'Término', '', false, 'date') +
+    '</div></div>' +
+    '<div class="sec"><div class="sec-h"><span class="n">02</span><span class="ln"></span><h2>Referenciais</h2><p>Selecione um ou mais para uma auditoria integrada</p></div><div class="norms">' + normCards + '</div></div>' +
+    '<div class="sec"><div class="sec-h"><span class="n">03</span><span class="ln"></span><h2>Como funciona</h2></div><div class="how">' +
+      '<div class="card"><div class="num">1</div><h3>Configure</h3><p>Preencha os dados da auditoria e escolha os referenciais.</p></div>' +
+      '<div class="card"><div class="num">2</div><h3>Avalie</h3><p>Para cada requisito, registre a situação, a evidência e a maturidade. O guia mostra o que procurar.</p></div>' +
+      '<div class="card"><div class="num">3</div><h3>Trate</h3><p>Itens parciais e não conformes viram cartões no plano de ação, com responsável e prazo.</p></div>' +
+      '<div class="card"><div class="num">4</div><h3>Reporte</h3><p>Acompanhe o painel e gere relatórios A4 prontos para salvar em PDF.</p></div>' +
+    '</div></div>' +
+    '<div class="sec"><div class="sec-h"><span class="n">04</span><span class="ln"></span><h2>Sobre este roteiro</h2></div><div class="about">' +
+      '<div class="card"><div class="lbl">Referências</div>' + refs + '</div>' +
+      '<div class="card notes"><div class="lbl">Uso e limites</div>' + notes + '</div>' +
+    '</div></div>' +
+    '<div class="sec"><div class="sec-h"><span class="n">05</span><span class="ln"></span><h2>Seus dados</h2><p>Nada sai deste computador</p></div>' +
+    '<div class="card data-row"><button class="btn btn-sec btn-sm" data-act="export">Exportar backup (.json)</button><button class="btn btn-sec btn-sm" data-act="import">Importar backup</button><span class="sp"></span>' + reset + '</div></div>' +
+    '<div class="foot"><span>Quality &amp; Audit · ' + esc(DECK.title) + '</span><span>Por Jaime · <a href="https://github.com/jgamacyber" target="_blank" rel="noopener">github.com/jgamacyber</a></span></div>' +
+    '</div>';
+}
+
+/* ---------- auditoria ---------- */
+function vAudit(){
+  var st = steps();
+  if (S.si >= st.length) S.si = 0;
+  var cur = st[S.si], n = cur.n;
+  var groups = '', last = null;
+  st.forEach(function(s, i){
+    if (s.n !== last) { groups += '<div class="g" style="color:' + s.n.ink + '"><i style="background:' + s.n.color + '"></i>' + esc(s.n.short) + '</div>'; last = s.n; }
+    var c = stats(s.items);
+    groups += '<button data-act="step" data-v="' + i + '" class="' + (i === S.si ? 'on' : '') + '" title="' + esc(s.st.t) + '"><span class="k">' + esc(s.st.k) + '</span><span class="t">' + esc(s.st.t) + '</span><span class="c' + (c.pend === 0 ? ' ok' : '') + '">' + (c.pend === 0 ? '✓' : c.done + '/' + c.total) + '</span></button>';
+  });
+  var selOpts = st.map(function(s, i){ return '<option value="' + i + '"' + (i === S.si ? ' selected' : '') + '>' + esc(s.n.short + ' · ' + s.st.k + ' ' + s.st.t) + '</option>'; }).join('');
+  var c = stats(cur.items);
+  var list = cur.items.filter(function(it){
+    var a = A(it.key);
+    if (S.filter === 'pend') return !a.st;
+    if (S.filter === 'nc') return a.st === 'NC' || a.st === 'P';
+    return true;
+  });
+  var items = list.length ? list.map(itemCard).join('') : '<div class="card empty">Nenhum requisito neste filtro.</div>';
+  return '<div class="wrap"><div class="aud">' +
+    '<aside class="rail" aria-label="Etapas">' + groups + '</aside>' +
+    '<section><label class="railsel f">Etapa<select data-act-change="step">' + selOpts + '</select></label>' +
+      '<div class="card stephead"><div class="top2"><span class="rf" style="' + rfStyle(n) + '">' + esc(n.code) + '</span><span>Etapa ' + (S.si + 1) + ' de ' + st.length + '</span><span>·</span><span>' + c.done + ' de ' + c.total + ' avaliados</span><span>·</span><span>Conformidade ' + pct(c.score) + '</span></div>' +
+      '<h2>' + esc(cur.st.k) + ' · ' + esc(cur.st.t) + '</h2><p>' + esc(cur.st.d) + '</p><div class="pbar"><span style="width:' + (c.total ? c.done / c.total * 100 : 0) + '%"></span></div></div>' +
+      '<div class="chips">' + [['all','Todos'],['pend','Pendentes'],['nc','Parciais e não conformes']].map(function(f){ return '<button class="chip' + (S.filter === f[0] ? ' on' : '') + '" data-act="filter" data-v="' + f[0] + '">' + f[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="items">' + items + '</div>' +
+      '<div class="stepnav"><button class="btn btn-sec" data-act="prev"' + (S.si === 0 ? ' disabled style="opacity:.4"' : '') + '>← Etapa anterior</button>' +
+      (S.si < st.length - 1 ? '<button class="btn btn-dark" data-act="next">Próxima etapa →</button>' : '<button class="btn btn-dark" data-act="nav" data-v="dash">Ver painel →</button>') + '</div>' +
+    '</section></div></div>';
+}
+function itemCard(it){
+  var a = A(it.key), k = esc(it.key), n = it.n;
+  var stb = ['C','P','NC','NA'].map(function(s){ return '<button data-act="st" data-k="' + k + '" data-v="' + s + '" class="' + (a.st === s ? 'on-' + s : '') + '" title="' + ST[s].l + '">' + ST[s].l + '</button>'; }).join('');
+  var mat = [0,1,2,3,4,5].map(function(m){ return '<button data-act="mat" data-k="' + k + '" data-v="' + m + '" class="' + (a.mat === m ? 'on' : '') + '" title="' + MAT[m] + '">' + m + '</button>'; }).join('');
+  var sev = a.st === 'NC' ? '<div><div class="lbl">Gravidade</div><div class="seg">' +
+    ['menor','maior'].map(function(v){ var on = (a.sev || 'menor') === v; return '<button data-act="sev" data-k="' + k + '" data-v="' + v + '" class="' + (on ? 'on' : '') + '">NC ' + v + '</button>'; }).join('') +
+    '</div><div class="sevnote">' + esc((a.sev === 'maior') ? TM.maj : 'Falha pontual, que não compromete o sistema como um todo.') + '</div></div>' : '';
+  var plan = (a.st === 'NC' || a.st === 'P') ?
+    '<label class="f">Responsável pela ação<input type="text" data-k="' + k + '" data-fld="resp" value="' + esc(a.resp || '') + '" placeholder="Nome e função"></label>' +
+    '<label class="f">Prazo<input type="date" data-k="' + k + '" data-fld="due" value="' + esc(a.due || '') + '"></label>' : '';
+  var g = guideOpen[it.key] ? '<div class="guide"><div><h4>O que procurar</h4><p>' + esc(it.o) + '</p></div><div><h4>Evidências esperadas</h4><p>' + esc(it.e) + '</p></div>' +
+    (it.map ? '<div><h4>Correlações</h4><p>' + esc(it.map) + '</p></div>' : '') +
+    '<div><h4>Dica de campo</h4><p>Confira se a evidência tem data, versão e aprovação. Depois teste por amostragem se a prática acontece de fato, conversando com quem executa a atividade.</p></div></div>' : '';
+  return '<article class="item ' + (a.st || '') + '" id="it-' + k.replace(/[^a-zA-Z0-9]/g, '_') + '">' +
+    '<div class="it-top"><span class="rf" style="' + rfStyle(n) + '">' + esc(it.ref) + '</span><h3>' + esc(it.t) + '</h3><button class="linkbtn" data-act="guide" data-k="' + k + '">' + (guideOpen[it.key] ? 'Fechar guia' : 'Como auditar') + '</button></div>' +
+    '<p class="q">' + esc(it.q) + '</p>' +
+    (it.map ? '<div class="xref"><span aria-hidden="true">⇄</span><span>' + esc(it.map) + '</span></div>' : '') + g +
+    '<div class="ctl"><div><div class="lbl">Situação</div><div class="seg">' + stb + '</div></div>' + sev +
+    '<div><div class="lbl">Maturidade</div><div class="seg mat">' + mat + '</div><div class="matd">' + (typeof a.mat === 'number' ? esc(MAT[a.mat] + ': ' + MATD[a.mat]) : '') + '</div></div></div>' +
+    '<div class="fields"><label class="f">Evidência analisada<textarea data-k="' + k + '" data-fld="ev" placeholder="Documento, registro ou entrevista que sustenta a avaliação">' + esc(a.ev || '') + '</textarea></label>' +
+    '<label class="f">Observações<textarea data-k="' + k + '" data-fld="ob" placeholder="Constatação, lacuna encontrada ou ponto de atenção">' + esc(a.ob || '') + '</textarea></label>' + plan + '</div>' +
+    '</article>';
+}
+
+/* ---------- plano de ação ---------- */
+function vPlan(){
+  var F = findings();
+  if (S.pf !== 'all') F = F.filter(function(f){ return f.n.id === S.pf; });
+  var cols = [['todo','A fazer'],['doing','Em andamento'],['done','Concluído']];
+  var td = today();
+  var filt = '<div class="chips"><button class="chip' + (S.pf === 'all' ? ' on' : '') + '" data-act="pf" data-v="all">Todos</button>' +
+    sel().map(function(n){ return '<button class="chip' + (S.pf === n.id ? ' on' : '') + '" data-act="pf" data-v="' + n.id + '">' + esc(n.short) + '</button>'; }).join('') + '</div>';
+  var body = cols.map(function(c, ci){
+    var cards = F.filter(function(f){ return (f.a.plan || 'todo') === c[0]; });
+    return '<div class="col" data-col="' + c[0] + '"><div class="col-h">' + c[1] + '<span>' + cards.length + '</span></div>' +
+      (cards.length ? cards.map(function(f){
+        var late = f.a.due && f.a.due < td && c[0] !== 'done';
+        var mv = (ci > 0 ? '<button data-act="move" data-k="' + esc(f.key) + '" data-v="' + cols[ci-1][0] + '">← ' + cols[ci-1][1] + '</button>' : '') +
+          (ci < 2 ? '<button data-act="move" data-k="' + esc(f.key) + '" data-v="' + cols[ci+1][0] + '">' + cols[ci+1][1] + ' →</button>' : '');
+        return '<div class="kc" draggable="true" data-drag="' + esc(f.key) + '"><div class="h"><span class="tag ' + f.cls + '">' + f.type + '</span><span class="rf" style="' + rfStyle(f.n) + '">' + esc(f.ref) + '</span><span style="color:var(--muted)">' + esc(f.n.short) + '</span></div>' +
+          '<h4>' + esc(f.t) + '</h4><div class="m"><span>' + esc(f.a.resp || 'Sem responsável') + '</span><span class="' + (late ? 'late' : '') + '">' + (f.a.due ? (late ? 'Atrasado · ' : 'Prazo ') + fmt(f.a.due) : 'Sem prazo') + '</span></div><div class="mv">' + mv + '</div></div>';
+      }).join('') : '<div class="empty">Nada aqui.</div>') + '</div>';
+  }).join('');
+  return '<div class="wrap"><div class="sec-h" style="margin-top:6px"><h2>Plano de ação</h2><p>Arraste os cartões entre as colunas. Responsável e prazo são definidos na auditoria.</p></div>' + filt +
+    (findings().length ? '<div class="kb">' + body + '</div>' : '<div class="card empty">Ainda não há itens parciais ou não conformes. Eles aparecem aqui assim que forem avaliados.</div>') + '</div>';
+}
+
+/* ---------- painel ---------- */
+function stepRows(){ return steps().map(function(s, i){ var c = stats(s.items); return {i:i, n:s.n, k:s.st.k, t:s.st.t, c:c}; }); }
+function vDash(){
+  var it = allItems(), s = stats(it), V = verdict(s.score), F = findings(), rows = stepRows();
+  var tabs = '<div class="tabs"><button class="chip' + (S.dash === 'exec' ? ' on' : '') + '" data-act="dash" data-v="exec">Visão executiva</button><button class="chip' + (S.dash === 'aud' ? ' on' : '') + '" data-act="dash" data-v="aud">Visão do auditor</button></div>';
+  var body;
+  if (S.dash === 'exec') {
+    var perNorm = sel().map(function(n){ var c = stats(allItems().filter(function(x){ return x.n === n; })); var b = band(c.score);
+      return '<div class="hb"><div class="l"><span style="color:' + n.ink + '">' + esc(n.code) + '</span><small>' + c.done + '/' + c.total + ' avaliados</small></div><div class="tr"><span style="width:' + (c.score || 0) + '%;background:' + b.bar + '"></span></div><div class="v">' + pct(c.score) + '</div></div>'; }).join('');
+    var heat = rows.map(function(r){ var b = band(r.c.score); return '<button class="hc" data-act="goto" data-v="' + r.i + '" style="background:' + b.bg + ';color:' + b.fg + '" title="' + esc(r.n.short + ' ' + r.k + ' ' + r.t) + '"><small>' + esc(r.n.short + ' · ' + r.k) + '</small><span>' + esc(r.t) + '</span><b>' + pct(r.c.score) + '</b></button>'; }).join('');
+    var dist = [['C',s.C],['P',s.P],['NC',s.NC],['NA',s.NA]];
+    var stack = dist.map(function(d){ return d[1] ? '<span style="width:' + (d[1] / s.total * 100) + '%;background:' + ST[d[0]].c + '"></span>' : ''; }).join('') + (s.pend ? '<span style="width:' + (s.pend / s.total * 100) + '%;background:#CBD5DF"></span>' : '');
+    var leg = dist.map(function(d){ return '<span><i style="background:' + ST[d[0]].c + '"></i>' + ST[d[0]].l + ' · <b>' + d[1] + '</b></span>'; }).join('') + '<span><i style="background:#CBD5DF"></i>Pendentes · <b>' + s.pend + '</b></span>';
+    var top = F.slice(0, 7).map(function(f){ return '<div class="fl"><span class="tag ' + f.cls + '">' + f.type + '</span><div class="tt"><b>' + esc(f.t) + '</b><small>' + esc(f.n.short + ' ' + f.ref) + '</small></div><span style="font-size:12px;color:var(--muted)">' + fmt(f.a.due) + '</span></div>'; }).join('') || '<div class="empty">Sem achados registrados.</div>';
+    body = '<div class="dgrid">' +
+      '<div class="card s5"><h3 class="ct">Índice de conformidade</h3><p class="cs">Conforme vale 1, parcial vale 0,5 e não conforme vale 0. N/A fica fora da conta.</p><div class="ringw">' + ring(s.score) + '<div class="verd"><b style="background:' + V.c + '">' + V.t + '</b><p>' + esc(V.d) + '</p></div></div></div>' +
+      '<div class="card s7"><h3 class="ct">Números da auditoria</h3><p class="cs">' + s.done + ' de ' + s.total + ' requisitos avaliados</p><div class="kpis">' +
+        '<div class="kpi"><b style="color:var(--c)">' + s.C + '</b><span>Conformes</span></div><div class="kpi"><b style="color:var(--p)">' + s.P + '</b><span>Parciais</span></div>' +
+        '<div class="kpi"><b style="color:var(--nc)">' + s.men + '</b><span>NC menores</span></div><div class="kpi"><b style="color:var(--nc)">' + s.maj + '</b><span>NC maiores · ' + esc(TM.majShort) + '</span></div>' +
+        '<div class="kpi"><b>' + (s.mat == null ? '—' : String(s.mat).replace('.', ',')) + '</b><span>Maturidade média (0 a 5)</span></div></div></div>' +
+      '<div class="card s6"><h3 class="ct">Conformidade por referencial</h3><p class="cs">Índice e avanço de cada norma ou framework</p>' + perNorm + '</div>' +
+      '<div class="card s6"><h3 class="ct">Distribuição das respostas</h3><p class="cs">Todos os requisitos selecionados</p><div class="stack">' + stack + '</div><div class="legend">' + leg + '</div></div>' +
+      '<div class="card s8"><h3 class="ct">Mapa de calor por etapa</h3><p class="cs">Clique numa etapa para abrir na auditoria</p><div class="heat">' + heat + '</div></div>' +
+      '<div class="card s4"><h3 class="ct">Achados prioritários</h3><p class="cs">Não conformidades maiores primeiro</p><div class="flist">' + top + '</div></div>' +
+    '</div>';
+  } else {
+    var td = today();
+    var prog = sel().map(function(n){ var c = stats(allItems().filter(function(x){ return x.n === n; })); var p = c.total ? Math.round(c.done / c.total * 100) : 0;
+      return '<div class="hb"><div class="l"><span style="color:' + n.ink + '">' + esc(n.code) + '</span><small>' + c.done + '/' + c.total + '</small></div><div class="tr"><span style="width:' + p + '%;background:' + n.color + '"></span></div><div class="v">' + p + '%</div></div>'; }).join('');
+    var pend = rows.filter(function(r){ return r.c.pend; }).map(function(r){ return '<div class="fl"><span class="rf" style="' + rfStyle(r.n) + '">' + esc(r.k) + '</span><div class="tt"><b>' + esc(r.t) + '</b><small>' + esc(r.n.short) + '</small></div><button class="btn btn-sec btn-sm" data-act="goto" data-v="' + r.i + '">' + r.c.pend + ' pendentes</button></div>'; }).join('') || '<div class="empty">Todos os requisitos foram avaliados.</div>';
+    var matr = rows.filter(function(r){ return r.c.mat != null; }).map(function(r){ return '<div class="hb"><div class="l"><span>' + esc(r.n.short + ' · ' + r.k + ' ' + r.t) + '</span></div><div class="tr"><span style="width:' + (r.c.mat / 5 * 100) + '%;background:' + r.n.color + '"></span></div><div class="v">' + String(r.c.mat).replace('.', ',') + '</div></div>'; }).join('') || '<div class="empty">Sem maturidade registrada.</div>';
+    var pl = {todo:0, doing:0, done:0}; F.forEach(function(f){ pl[f.a.plan || 'todo']++; });
+    var late = F.filter(function(f){ return f.a.due && f.a.due < td && (f.a.plan || 'todo') !== 'done'; });
+    var byResp = {}; F.forEach(function(f){ var r = f.a.resp || 'Sem responsável'; byResp[r] = (byResp[r] || 0) + 1; });
+    var resp = Object.keys(byResp).sort(function(a, b){ return byResp[b] - byResp[a]; }).map(function(r){ return '<div class="fl"><span class="pill">' + byResp[r] + '</span><div class="tt"><b>' + esc(r) + '</b></div><span></span></div>'; }).join('') || '<div class="empty">Sem achados.</div>';
+    body = '<div class="dgrid">' +
+      '<div class="card s6"><h3 class="ct">Avanço por referencial</h3><p class="cs">Requisitos avaliados sobre o total</p>' + prog + '</div>' +
+      '<div class="card s6"><h3 class="ct">Plano de ação</h3><p class="cs">' + F.length + ' itens no plano</p><div class="kpis"><div class="kpi"><b>' + pl.todo + '</b><span>A fazer</span></div><div class="kpi"><b>' + pl.doing + '</b><span>Em andamento</span></div><div class="kpi"><b style="color:var(--c)">' + pl.done + '</b><span>Concluídos</span></div><div class="kpi"><b style="color:var(--nc)">' + late.length + '</b><span>Atrasados</span></div></div></div>' +
+      '<div class="card s6"><h3 class="ct">Etapas com pendências</h3><p class="cs">Clique para continuar de onde parou</p><div class="flist">' + pend + '</div></div>' +
+      '<div class="card s6"><h3 class="ct">Achados por responsável</h3><p class="cs">Quantidade de itens no plano de ação</p><div class="flist">' + resp + '</div></div>' +
+      '<div class="card s12"><h3 class="ct">Maturidade média por etapa</h3><p class="cs">Escala de 0 (inexistente) a 5 (otimizado)</p>' + matr + '</div>' +
+    '</div>';
+  }
+  return '<div class="wrap"><div class="sec-h" style="margin-top:6px"><h2>Painel</h2><p>' + esc(S.org.nome || 'Organização não informada') + '</p></div>' + tabs + body + '</div>';
+}
+
+/* ---------- relatórios ---------- */
+function chunk(a, n){ var o = []; for (var i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o.length ? o : [[]]; }
+function recs(){
+  var it = allItems(), s = stats(it), F = findings(), out = [];
+  var maj = F.filter(function(f){ return f.type === 'NC maior'; });
+  if (maj.length) out.push('Tratar com prioridade as ' + maj.length + ' não conformidades maiores (' + maj.slice(0, 6).map(function(f){ return f.n.short + ' ' + f.ref; }).join(', ') + (maj.length > 6 ? ' e outras' : '') + '). ' + TM.majRec);
+  if (s.men) out.push('Definir ações corretivas para as ' + s.men + ' não conformidades menores, com análise de causa e prazo de até 90 dias.');
+  if (s.P) out.push('Concluir a implementação dos ' + s.P + ' requisitos parciais e guardar evidência da conclusão.');
+  var worst = stepRows().filter(function(r){ return r.c.score != null; }).sort(function(a, b){ return a.c.score - b.c.score; }).slice(0, 3);
+  if (worst.length && worst[0].c.score < 70) out.push('Concentrar esforço nas etapas com menor conformidade: ' + worst.map(function(r){ return r.n.short + ' ' + r.k + ' (' + r.c.score + '%)'; }).join(', ') + '.');
+  if (s.pend) out.push('Avaliar os ' + s.pend + ' requisitos ainda pendentes antes de encerrar a auditoria.');
+  out.push(TM.keep);
+  return out;
+}
+function pageWrap(inner, title, i, N, cover){
+  if (cover) return '<div class="page cover">' + inner + '</div>';
+  return '<div class="page"><div class="ph"><span class="bm">' + LOGO.replace('width="26" height="26"', 'width="16" height="16"') + 'Quality &amp; Audit</span><span>' + esc(title) + ' · ' + esc(S.org.nome || 'Organização') + '</span></div>' + inner +
+    '<div class="pf"><span>Confidencial · Emitido em ' + fmt(today()) + '</span><span>Página ' + i + ' de ' + N + '</span></div></div>';
+}
+function coverPage(title){
+  var o = S.org;
+  return '<div class="band"><div class="bm">' + LOGO + 'Quality &amp; Audit</div><h1>' + esc(title) + '</h1><div class="sub">' + esc(sel().map(function(n){ return n.code; }).join(' · ')) + '</div></div>' +
+    '<div class="meta"><div><small>Organização</small><b>' + esc(o.nome || '—') + '</b></div><div><small>Período</small><b>' + fmt(o.inicio) + ' a ' + fmt(o.fim) + '</b></div>' +
+    '<div><small>Auditor líder</small><b>' + esc(o.auditor || '—') + '</b></div><div><small>Emissão</small><b>' + fmt(today()) + '</b></div>' +
+    '<div style="grid-column:1/-1"><small>Escopo</small><b style="font-weight:600;font-size:10pt">' + esc(o.escopo || '—') + '</b></div></div>' +
+    '<div class="conf">Documento confidencial · Uso interno · ' + esc(DECK.tag) + '</div>';
+}
+function summaryBlock(){
+  var it = allItems(), s = stats(it), V = verdict(s.score);
+  var norms = sel().map(function(n){ var c = stats(it.filter(function(x){ return x.n === n; })); var b = band(c.score);
+    return '<tr><td><b>' + esc(n.code) + '</b></td><td class="n">' + c.done + '/' + c.total + '</td><td class="n">' + c.C + '</td><td class="n">' + c.P + '</td><td class="n">' + c.NC + '</td><td style="width:38mm"><div class="rbar"><span style="width:' + (c.score || 0) + '%;background:' + b.bar + '"></span></div></td><td class="n"><b>' + pct(c.score) + '</b></td></tr>'; }).join('');
+  return '<div class="rbig">' + ring(s.score, 120) + '<div><div class="kk">Resultado geral</div><h2 style="margin:1mm 0 2mm;color:' + V.c + '">' + V.t + '</h2><p style="margin:0;color:#334155">' + esc(V.d) + '</p></div></div>' +
+    '<div class="rk"><div><b>' + s.done + '/' + s.total + '</b><span>Avaliados</span></div><div><b>' + s.C + '</b><span>Conformes</span></div><div><b>' + s.P + '</b><span>Parciais</span></div><div><b>' + s.men + '</b><span>NC menores</span></div><div><b>' + s.maj + '</b><span>NC maiores</span></div></div>' +
+    '<div class="kk" style="margin-bottom:2mm">Por referencial</div><table><thead><tr><th>Referencial</th><th class="n">Aval.</th><th class="n">C</th><th class="n">P</th><th class="n">NC</th><th>Conformidade</th><th class="n">%</th></tr></thead><tbody>' + norms + '</tbody></table>';
+}
+function stepTable(rows, detailed){
+  return '<table><thead><tr><th>Etapa</th>' + (detailed ? '<th class="n">Aval.</th><th class="n">C</th><th class="n">P</th><th class="n">NC</th><th class="n">N/A</th>' : '<th>Conformidade</th>') + '<th class="n">%</th></tr></thead><tbody>' +
+    rows.map(function(r){ var b = band(r.c.score);
+      return '<tr><td class="cut" style="width:100%"><b style="color:' + r.n.ink + '">' + esc(r.n.short) + '</b> · <b>' + esc(r.k) + '</b> ' + esc(r.t) + '</td>' +
+        (detailed ? '<td class="n">' + r.c.done + '/' + r.c.total + '</td><td class="n">' + r.c.C + '</td><td class="n">' + r.c.P + '</td><td class="n">' + r.c.NC + '</td><td class="n">' + r.c.NA + '</td>' :
+          '<td style="min-width:40mm"><div class="rbar"><span style="width:' + (r.c.score || 0) + '%;background:' + b.bar + '"></span></div></td>') +
+        '<td class="n"><b>' + pct(r.c.score) + '</b></td></tr>'; }).join('') + '</tbody></table>';
+}
+function findingCard(f, full){
+  return '<div class="fcard"><div class="h"><span class="tag ' + f.cls + '">' + f.type + '</span><span class="rf" style="' + rfStyle(f.n) + '">' + esc(f.ref) + '</span><span style="color:#5B6878">' + esc(f.n.code) + '</span><b>' + esc(f.t) + '</b></div>' +
+    (full ? '<small>Requisito</small><p>' + esc(f.q) + '</p>' : '') +
+    '<div class="g"><div><small>Evidência</small><p>' + esc(f.a.ev || '—') + '</p></div><div><small>Constatação</small><p>' + esc(f.a.ob || '—') + '</p></div>' +
+    '<div><small>Responsável</small><p>' + esc(f.a.resp || '—') + '</p></div><div><small>Prazo · maturidade</small><p>' + fmt(f.a.due) + ' · ' + (typeof f.a.mat === 'number' ? f.a.mat + ' ' + MAT[f.a.mat] : '—') + '</p></div></div></div>';
+}
+function closingBlock(){
+  var F = findings(), pl = {todo:0, doing:0, done:0}; F.forEach(function(f){ pl[f.a.plan || 'todo']++; });
+  var s = stats(allItems());
+  return '<div class="kk" style="margin-bottom:3mm">Recomendações</div>' + recs().map(function(r, i){ return '<div class="rec"><span>' + (i + 1) + '</span><div>' + esc(r) + '</div></div>'; }).join('') +
+    '<div class="kk" style="margin:7mm 0 3mm">Situação do plano de ação</div><div class="rk" style="grid-template-columns:repeat(4,1fr)"><div><b>' + F.length + '</b><span>Itens</span></div><div><b>' + pl.todo + '</b><span>A fazer</span></div><div><b>' + pl.doing + '</b><span>Em andamento</span></div><div><b>' + pl.done + '</b><span>Concluídos</span></div></div>' +
+    '<div class="kk" style="margin:4mm 0 2mm">Conclusão</div><p style="margin:0">' + esc(s.maj ? TM.conclMaj : TM.conclNo) + '</p>' +
+    '<div class="sig"><div><b>' + esc(S.org.auditor || 'Auditor líder') + '</b><br>Auditor líder</div><div><b>Representante da direção</b><br>' + esc(S.org.nome || 'Organização') + '</div></div>';
+}
+function buildReport(type){
+  var title = type === 'exec' ? 'Relatório executivo de auditoria' : 'Relatório de auditoria interna';
+  var pages = [], rows = stepRows(), F = findings();
+  pages.push({cover:true, html:coverPage(title)});
+  if (type === 'exec') {
+    pages.push({html:'<div class="kk">01 · Resumo</div><h2>Resultado da auditoria</h2>' + summaryBlock()});
+    chunk(rows, 24).forEach(function(c, i){ pages.push({html:'<div class="kk">02 · Etapas</div><h2>Conformidade por etapa' + (i ? ' (continuação)' : '') + '</h2>' + stepTable(c, false)}); });
+    var top = F.filter(function(f){ return f.rank < 2; }).concat(F.filter(function(f){ return f.rank === 2; })).slice(0, 12);
+    chunk(top, 4).forEach(function(c, i){ pages.push({html:'<div class="kk">03 · Achados</div><h2>Principais achados' + (i ? ' (continuação)' : '') + '</h2>' + (c.length ? c.map(function(f){ return findingCard(f, false); }).join('') : '<p>Sem achados registrados.</p>')}); });
+    pages.push({html:'<div class="kk">04 · Encaminhamentos</div><h2>Recomendações e conclusão</h2>' + closingBlock()});
+  } else {
+    var o = S.org;
+    var info = [['Organização', o.nome],['Escopo', o.escopo],['Objetivo', o.objetivo],['Critérios', sel().map(function(n){ return n.code; }).join(' · ')],['Período', fmt(o.inicio) + ' a ' + fmt(o.fim)],['Auditor líder', o.auditor],['Equipe', o.equipe],['Método', o.metodo]];
+    pages.push({html:'<div class="kk">01 · Dados</div><h2>Escopo, critérios e equipe</h2><table><tbody>' + info.map(function(r){ return '<tr><td style="width:36mm;font-weight:800;font-size:7.6pt;letter-spacing:.1em;text-transform:uppercase;color:#5B6878">' + r[0] + '</td><td>' + esc(r[1] || '—') + '</td></tr>'; }).join('') + '</tbody></table><div style="height:8mm"></div>' + summaryBlock()});
+    chunk(rows, 24).forEach(function(c, i){ pages.push({html:'<div class="kk">02 · Etapas</div><h2>Resultado por etapa' + (i ? ' (continuação)' : '') + '</h2>' + stepTable(c, true)}); });
+    chunk(F, 3).forEach(function(c, i){ pages.push({html:'<div class="kk">03 · Achados</div><h2>Registro de achados' + (i ? ' (continuação)' : '') + '</h2>' + (c.length ? c.map(function(f){ return findingCard(f, true); }).join('') : '<p>Sem achados registrados.</p>')}); });
+    var all = allItems();
+    chunk(all, 24).forEach(function(c, i){ pages.push({html:'<div class="kk">04 · Lista de verificação</div><h2>Todos os requisitos' + (i ? ' (continuação)' : '') + '</h2><table><thead><tr><th>Ref.</th><th>Requisito</th><th>Referencial</th><th>Situação</th><th class="n">Mat.</th></tr></thead><tbody>' +
+      c.map(function(it){ var a = A(it.key), stt = a.st ? ST[a.st] : null; return '<tr><td style="white-space:nowrap"><b>' + esc(it.ref) + '</b></td><td class="cut" style="width:100%">' + esc(it.t) + '</td><td style="white-space:nowrap;color:#5B6878">' + esc(it.n.short) + '</td><td style="white-space:nowrap">' + (stt ? '<span class="tag" style="background:' + stt.b + ';color:' + stt.c + '">' + stt.l + (a.st === 'NC' ? ' ' + (a.sev || 'menor') : '') + '</span>' : '<span style="color:#8794A3">Pendente</span>') + '</td><td class="n">' + (typeof a.mat === 'number' ? a.mat : '—') + '</td></tr>'; }).join('') + '</tbody></table>'}); });
+    pages.push({html:'<div class="kk">05 · Encerramento</div><h2>Recomendações e conclusão</h2>' + closingBlock()});
+  }
+  var N = pages.length;
+  return pages.map(function(p, i){ return pageWrap(p.html, title, i + 1, N, p.cover); }).join('');
+}
+function vRep(){
+  return '<div class="wrap"><div class="rtool noprint"><button class="chip' + (S.rep === 'exec' ? ' on' : '') + '" data-act="rep" data-v="exec">Relatório executivo</button><button class="chip' + (S.rep === 'aud' ? ' on' : '') + '" data-act="rep" data-v="aud">Relatório de auditoria</button>' +
+    '<span class="sp"></span><p>Na janela de impressão, escolha "Salvar como PDF", papel A4 e margens nenhuma.</p><button class="btn btn-dark" data-act="print">Imprimir ou salvar PDF</button></div>' +
+    '<div class="pscroll"><div class="pages">' + buildReport(S.rep) + '</div></div></div>';
+}
+
+/* ---------- render e eventos ---------- */
+var app = document.getElementById('app');
+function render(keepScroll){
+  var y = window.scrollY;
+  var v = S.view === 'audit' ? vAudit() : S.view === 'plan' ? vPlan() : S.view === 'dash' ? vDash() : S.view === 'rep' ? vRep() : vHome();
+  app.innerHTML = header() + v;
+  document.title = DECK.title;
+  if (scrollTo) { var el = document.getElementById(scrollTo); scrollTo = null; if (el) el.scrollIntoView({block:'center'}); }
+  else window.scrollTo(0, keepScroll ? y : 0);
+}
+function toast(msg){ var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(function(){ t.remove(); }, 2600); }
+
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function addDays(n){ var d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
+function demo(){
+  var r = rng(4271 + DECK.id.length * 97), D = DECK.demo, ans = {};
+  var obsP = ['Prática existe, mas falta registro formal em parte das amostras.','Documento aprovado, porém desatualizado em relação ao processo atual.','Aplicado em parte do escopo; outras unidades ainda não seguem.','Responsável definido, mas sem evidência de revisão periódica.'];
+  var obsN = ['Não foi apresentada evidência da prática.','Processo inexistente; a equipe desconhece o requisito.','Amostras analisadas não atendem ao requisito.','Controle previsto na política, mas não implementado.'];
+  NORMS.forEach(function(n){ n.steps.forEach(function(st){ st.i.forEach(function(it){
+    var x = r(), s = x < 0.52 ? 'C' : x < 0.74 ? 'P' : x < 0.88 ? 'NC' : x < 0.93 ? 'NA' : null;
+    if (!s) return;
+    var a = {st:s, ev:it[4].split(',')[0].replace(/\.$/, '') + '. Verificado por amostragem.'};
+    a.mat = s === 'C' ? 3 + Math.floor(r() * 3) : s === 'P' ? 2 + Math.floor(r() * 2) : s === 'NC' ? Math.floor(r() * 2) : undefined;
+    if (s === 'NC') a.sev = r() < 0.3 ? 'maior' : 'menor';
+    if (s === 'P' || s === 'NC') {
+      a.ob = (s === 'P' ? obsP : obsN)[Math.floor(r() * 4)];
+      a.resp = D.people[Math.floor(r() * D.people.length)];
+      a.due = addDays(s === 'NC' && a.sev === 'maior' ? 15 + Math.floor(r() * 30) : -20 + Math.floor(r() * 140));
+      var y = r(); a.plan = y < 0.5 ? 'todo' : y < 0.8 ? 'doing' : 'done';
+    }
+    if (a.mat === undefined) delete a.mat;
+    ans[n.id + '|' + it[0]] = a;
+  }); }); });
+  S.ans = ans; S.norms = NORMS.map(function(n){ return n.id; });
+  S.org = {nome:D.nome, escopo:D.escopo, objetivo:D.objetivo, auditor:D.auditor, equipe:D.equipe, inicio:addDays(-12), fim:addDays(2), metodo:'Entrevistas, análise documental e verificação de evidências por amostragem.'};
+  S.view = 'dash'; S.dash = 'exec'; S.si = 0;
+  save(); render(); toast('Exemplo carregado. Use "Limpar auditoria" no início para recomeçar.');
+}
+function exportJSON(){
+  var data = {app:'quality-audit', deck:DECK.id, version:1, exported:new Date().toISOString(), state:S};
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'quality-audit-' + DECK.id + '-' + today() + '.json';
+  document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+}
+document.getElementById('imp').addEventListener('change', function(e){
+  var f = e.target.files && e.target.files[0]; if (!f) return;
+  var rd = new FileReader();
+  rd.onload = function(){
+    try {
+      var d = JSON.parse(rd.result);
+      if (!d || d.app !== 'quality-audit' || !d.state) throw new Error('formato');
+      if (d.deck !== DECK.id) { toast('Este backup é de outro roteiro (' + d.deck + ').'); return; }
+      var b = blank(); Object.assign(b, d.state); b.org = Object.assign(blank().org, d.state.org || {}); S = b; save(); render(); toast('Backup importado.');
+    } catch(err) { toast('Arquivo inválido.'); }
+    e.target.value = '';
+  };
+  rd.readAsText(f);
+});
+
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-act]'); if (!b) return;
+  var act = b.getAttribute('data-act'), v = b.getAttribute('data-v'), k = b.getAttribute('data-k');
+  switch (act) {
+    case 'nav': S.view = v; confirmReset = false; save(); render(); break;
+    case 'norm':
+      var i = S.norms.indexOf(v);
+      if (i >= 0) { if (S.norms.length === 1) { toast('Mantenha ao menos um referencial.'); return; } S.norms.splice(i, 1); } else S.norms.push(v);
+      S.norms = NORMS.map(function(n){ return n.id; }).filter(function(id){ return S.norms.indexOf(id) >= 0; });
+      S.si = 0; save(); render(true); break;
+    case 'step': S.si = +v; S.filter = 'all'; save(); render(); break;
+    case 'goto': S.si = +v; S.view = 'audit'; S.filter = 'all'; save(); render(); break;
+    case 'prev': if (S.si > 0) { S.si--; save(); render(); } break;
+    case 'next': S.si++; save(); render(); break;
+    case 'filter': S.filter = v; save(); render(true); break;
+    case 'st':
+      var cur = A(k).st;
+      setA(k, cur === v ? {st:undefined, sev:undefined} : {st:v, sev: v === 'NC' ? (A(k).sev || 'menor') : undefined});
+      render(true); break;
+    case 'sev': setA(k, {sev:v}); render(true); break;
+    case 'mat': setA(k, {mat: A(k).mat === +v ? undefined : +v}); render(true); break;
+    case 'guide': guideOpen[k] = !guideOpen[k]; render(true); break;
+    case 'move': setA(k, {plan:v}); render(true); break;
+    case 'pf': S.pf = v; save(); render(true); break;
+    case 'dash': S.dash = v; save(); render(true); break;
+    case 'rep': S.rep = v; save(); render(true); break;
+    case 'print': window.print(); break;
+    case 'demo': demo(); break;
+    case 'export': exportJSON(); break;
+    case 'import': document.getElementById('imp').click(); break;
+    case 'reset': confirmReset = true; render(true); break;
+    case 'resetNo': confirmReset = false; render(true); break;
+    case 'resetYes': S = blank(); guideOpen = {}; confirmReset = false; save(); render(); toast('Auditoria apagada.'); break;
+  }
+});
+document.addEventListener('input', function(e){
+  var t = e.target;
+  if (t.hasAttribute('data-org')) { S.org[t.getAttribute('data-org')] = t.value; save(); return; }
+  if (t.hasAttribute('data-fld')) { var p = {}; p[t.getAttribute('data-fld')] = t.value || undefined; setA(t.getAttribute('data-k'), p); }
+});
+document.addEventListener('change', function(e){
+  var t = e.target;
+  if (t.getAttribute('data-act-change') === 'step') { S.si = +t.value; S.filter = 'all'; save(); render(); }
+});
+var dragK = null;
+document.addEventListener('dragstart', function(e){ var c = e.target.closest && e.target.closest('[data-drag]'); if (!c) return; dragK = c.getAttribute('data-drag'); try { e.dataTransfer.setData('text/plain', dragK); e.dataTransfer.effectAllowed = 'move'; } catch(x) {} });
+document.addEventListener('dragover', function(e){ var col = e.target.closest && e.target.closest('[data-col]'); if (!col || !dragK) return; e.preventDefault(); document.querySelectorAll('.col.over').forEach(function(x){ if (x !== col) x.classList.remove('over'); }); col.classList.add('over'); });
+document.addEventListener('dragleave', function(e){ var col = e.target.closest && e.target.closest('[data-col]'); if (col && !col.contains(e.relatedTarget)) col.classList.remove('over'); });
+document.addEventListener('drop', function(e){ var col = e.target.closest && e.target.closest('[data-col]'); if (!col || !dragK) return; e.preventDefault(); setA(dragK, {plan:col.getAttribute('data-col')}); dragK = null; render(true); });
+document.addEventListener('dragend', function(){ dragK = null; document.querySelectorAll('.col.over').forEach(function(x){ x.classList.remove('over'); }); });
+
+render();
+})();
+</script>
+</body>
+</html>

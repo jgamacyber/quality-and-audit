@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quality &amp; Audit</title>
+<meta name="description" content="Seis roteiros de auditoria offline em HTML: IA segura, SGSI e CSF, privacidade, controles técnicos, gestão de riscos e HPC.">
+<style>
+:root{--bg:#F2F5F7;--ink:#0B1B2B;--muted:#5B6878;--card:#FFFFFF;--line:#E1E7ED;--brand:#0E7490;--brand-soft:#E3F3F6;--night:#0A2230;--glow:#5EEAD4;--hero-muted:#B9CCD6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#081820;--ink:#E6F0F4;--muted:#9FB3BE;--card:#0F2531;--line:#1D3A48;--brand:#5EEAD4;--brand-soft:#123844}}
+:root[data-theme="dark"]{--bg:#081820;--ink:#E6F0F4;--muted:#9FB3BE;--card:#0F2531;--line:#1D3A48;--brand:#5EEAD4;--brand-soft:#123844}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.hero{background:var(--night);color:#fff;padding:60px 16px 68px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(94,234,212,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(94,234,212,.07) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(110deg,transparent 30%,#000 75%);-webkit-mask-image:linear-gradient(110deg,transparent 30%,#000 75%)}
+.wrap{max-width:1120px;margin:0 auto;position:relative}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+.kicker{margin-top:34px;font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--glow)}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.03;letter-spacing:-.035em;margin:16px 0 0;font-weight:800;text-wrap:balance}
+h1 span{color:var(--glow)}
+.lead{max-width:640px;font-size:17px;line-height:1.7;color:var(--hero-muted);margin:20px 0 0}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.pill{font-size:13px;font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:7px 12px;border-radius:99px}
+main{padding:44px 16px 72px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:18px}
+.card{display:flex;flex-direction:column;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--brand);box-shadow:0 20px 40px -26px rgba(10,34,48,.5)}
+.num{font-weight:800;font-size:13px;color:var(--brand)}
+.card h2{font-size:21px;letter-spacing:-.02em;margin:0;line-height:1.2}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:5px 10px;border-radius:99px}
+.card p{margin:0;font-size:14.5px;line-height:1.6;color:var(--muted)}
+.meta{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--muted)}
+.meta b{color:var(--brand)}
+.note{margin-top:34px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;font-size:14.5px;line-height:1.65;color:var(--muted)}
+.box h3{margin:0 0 8px;font-size:15px;color:var(--ink)}
+footer{padding:0 16px 44px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="7" fill="#14B8A6"/><circle cx="11.5" cy="11.5" r="5.6" fill="none" stroke="#032A2C" stroke-width="2.4"/><path d="M15.6 15.6l4.6 4.6" stroke="#032A2C" stroke-width="2.6" stroke-linecap="round"/><path d="M9 11.6l1.8 1.8 3.4-3.6" fill="none" stroke="#032A2C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Quality &amp; Audit</div>
+    <div class="kicker">Roteiros de auditoria offline</div>
+    <h1>Seis auditorias integradas <span>que rodam no navegador.</span></h1>
+    <p class="lead">Escolha o roteiro, avalie cada requisito com orientação, trate os achados num plano de ação e gere relatórios A4 em PDF. Sem instalação, sem servidor e sem enviar dados para fora do seu computador.</p>
+    <div class="pills"><span class="pill">ISO 27090 · 42001 · 27001 · 27701 · 27005 · 31000</span><span class="pill">NIST AI RMF · CSF 2.0 · Privacy Framework · SP 800-53 · 800-223 · 800-234</span><span class="pill">CIS v8.1 · COSO ERM</span></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="grid">
+      <a class="card" href="01_IA_Segura_ISO27090_ISO42001_AIRMF.html"><span class="num">01 · IA segura</span><h2>Segurança e governança de IA</h2><div class="tags"><span class="tag">ISO/IEC 27090:2026</span><span class="tag">ISO/IEC 42001:2023</span><span class="tag">NIST AI RMF 1.0</span></div><p>Envenenamento de dados, evasão, roubo de modelo e injeção de prompt, junto com o sistema de gestão de IA e as funções Govern, Map, Measure e Manage.</p><div class="meta"><span>26 etapas</span><b>126 requisitos</b></div></a>
+      <a class="card" href="02_SGSI_ISO27001_NIST_CSF2.html"><span class="num">02 · SGSI + CSF</span><h2>Segurança da informação</h2><div class="tags"><span class="tag">ISO/IEC 27001:2022</span><span class="tag">NIST CSF 2.0</span></div><p>Cláusulas 4 a 10 e Anexo A, com a subcategoria equivalente do CSF em cada item. A mesma coleta serve para o SGSI e para o perfil atual.</p><div class="meta"><span>18 etapas</span><b>106 requisitos</b></div></a>
+      <a class="card" href="03_Privacidade_ISO27701_NIST_PF.html"><span class="num">03 · Privacidade</span><h2>Gestão de privacidade</h2><div class="tags"><span class="tag">ISO/IEC 27701:2025</span><span class="tag">NIST Privacy Framework</span></div><p>Controles de controlador, operador e segurança compartilhada, ligados ao Privacy Framework e aos artigos da LGPD.</p><div class="meta"><span>14 etapas</span><b>85 requisitos</b></div></a>
+      <a class="card" href="04_Controles_Tecnicos_NIST80053_CIS81.html"><span class="num">04 · Controles técnicos</span><h2>Controles e salvaguardas</h2><div class="tags"><span class="tag">NIST SP 800-53 Rev. 5</span><span class="tag">CIS Controls v8.1</span></div><p>Baseline moderada por família de controles e salvaguardas do CIS com o grupo de implementação de cada uma.</p><div class="meta"><span>14 etapas</span><b>82 requisitos</b></div></a>
+      <a class="card" href="05_Riscos_ISO27005_ISO31000_COSO_ERM.html"><span class="num">05 · Gestão de riscos</span><h2>Riscos corporativos e de SI</h2><div class="tags"><span class="tag">ISO/IEC 27005:2022</span><span class="tag">ISO 31000:2018</span><span class="tag">COSO ERM 2017</span></div><p>Do critério de risco de segurança da informação ao apetite a risco aprovado pelo conselho, passando pelos 20 princípios do COSO.</p><div class="meta"><span>12 etapas</span><b>72 requisitos</b></div></a>
+      <a class="card" href="06_HPC_NIST_SP800-223_SP800-234.html"><span class="num">06 · HPC Security</span><h2>Computação de alto desempenho</h2><div class="tags"><span class="tag">NIST SP 800-223</span><span class="tag">NIST SP 800-234</span></div><p>Arquitetura em quatro zonas, ameaças por zona e os controles ajustados do overlay de HPC sobre a baseline moderada.</p><div class="meta"><span>11 etapas</span><b>62 requisitos</b></div></a>
+    </div>
+    <div class="note">
+      <div class="box"><h3>Funciona offline</h3>Cada roteiro é um único arquivo HTML, sem dependências externas. Baixe e abra no Chrome, Edge ou Firefox, mesmo sem internet.</div>
+      <div class="box"><h3>Seus dados ficam com você</h3>As respostas ficam salvas neste navegador. Para levar a auditoria a outro computador, use Exportar backup e depois Importar backup.</div>
+      <div class="box"><h3>Não substitui a norma</h3>Os requisitos são perguntas de auditoria com o número da cláusula ou do controle. Confira o texto oficial e revise o roteiro antes de uma auditoria formal.</div>
+    </div>
+  </div>
+</main>
+<footer><div class="wrap">Quality &amp; Audit · criado por Jaime · <a href="https://github.com/jgamacyber">github.com/jgamacyber</a></div></footer>
+</body>
+</html>
